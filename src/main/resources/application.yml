@@ -1,0 +1,22 @@
+server:
+    port: 8080
+    context-path: /dong
+
+database: mysql
+spring:
+    datasource:
+        url : jdbc:mysql://123.207.125.170:3306/dong?characterEncoding=UTF-8
+        username : dong
+        password : Dong123456__
+        driver-class-name : com.mysql.jdbc.Driver
+
+mybatis:
+    type-aliases-package: com.yulaiz.dong.web.dao
+    mapper-locations: classpath:mapper/*.xml
+
+logging:
+    file: logs/test.log
+    level:
+#        root: DEBUG
+#        org.springframework.boot: DEBUG
+        com.yulaiz.dong.web: DEBUG

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yulaiz.dong.web.dao.CalendarMapper">
+    <select id="getCalendarById" resultType="com.yulaiz.dong.web.model.entity.CalendarInfo">
+        SELECT
+            c.id,
+            c.title,
+            c.description,
+            c.remark
+        FROM
+            d_calendar c
+        WHERE
+            1 = 1
+            AND id = #{id}
+    </select>
+
+    <select id="getCalendarList" resultType="com.yulaiz.dong.web.model.entity.CalendarInfo">
+        SELECT
+            c.id,
+            c.title,
+            c.description,
+            c.remark
+        FROM
+            d_calendar c
+        ORDER BY
+            c.id DESC
+    </select>
+
+    <select id="getCalendarListByPage" resultType="com.yulaiz.dong.web.model.entity.CalendarInfo">
+        SELECT
+            c.id,
+            c.title,
+            c.description,
+            c.remark
+        FROM
+            d_calendar c
+        ORDER BY
+            c.id DESC
+        LIMIT #{offset},#{size}
+    </select>
+
+    <insert id="addCalendar" parameterType="com.yulaiz.dong.web.model.entity.CalendarInfo">
+        INSERT INTO d_calendar (
+            title, description, remark
+        )
+        VALUES (
+            #{item.title},
+            #{item.description},
+            #{item.remark}
+        )
+    </insert>
+
+    <update id="modifyCalendar" parameterType="com.yulaiz.dong.web.model.entity.CalendarInfo">
+        UPDATE d_calendar
+        SET
+            title = #{item.title}
+        AND description = #{item.description}
+        AND remark = #{item.remark}
+        WHERE
+            id = #{item.id}
+    </update>
+
+    <delete id="delCalendarById" parameterType="java.lang.String">
+        DELETE
+        FROM
+            d_calendar
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>
