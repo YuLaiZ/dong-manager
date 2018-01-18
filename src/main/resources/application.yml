@@ -5,9 +5,9 @@ server:
 database: mysql
 spring:
     datasource:
-        url : jdbc:mysql://123.207.125.170:3306/dong?characterEncoding=UTF-8
+        url : jdbc:mysql://127.0.0.1:3306/dong?characterEncoding=UTF-8
         username : dong
-        password : Dong123456__
+        password : 12345678
         driver-class-name : com.mysql.jdbc.Driver
 
 mybatis:
