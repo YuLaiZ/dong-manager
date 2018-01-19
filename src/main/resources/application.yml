@@ -1,6 +1,6 @@
 server:
     port: 8080
-    context-path: /dong
+    context-path: /dong-manager
 
 database: mysql
 spring:

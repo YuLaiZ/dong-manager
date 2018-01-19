@@ -2,6 +2,7 @@ package com.yulaiz.dong.web.controller.req.ad;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.io.Serializable;
 
@@ -14,8 +15,10 @@ public class AdAddReq implements Serializable {
     private static final long serialVersionUID = 3416149677010170374L;
 
     @ApiModelProperty("广告标题")
+    @NotBlank(message = "标题不能为空")
     private String title;
 
     @ApiModelProperty("广告描述")
+    @NotBlank(message = "描述不能为空")
     private String description;
 }

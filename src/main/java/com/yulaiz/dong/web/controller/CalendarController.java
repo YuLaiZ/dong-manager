@@ -1,12 +1,16 @@
 package com.yulaiz.dong.web.controller;
 
+import com.yulaiz.dong.web.common.annotation.IgnoreSecurity;
 import com.yulaiz.dong.web.common.response.ExeResult;
 import com.yulaiz.dong.web.controller.req.calendar.*;
 import com.yulaiz.dong.web.service.CalendarService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,39 +27,45 @@ public class CalendarController {
     @Autowired
     private CalendarService calendarService;
 
+    @IgnoreSecurity
     @ApiOperation(value = "获取指定", notes = "获取指定日历")
     @RequestMapping(value = "/get-by-id", method = RequestMethod.POST)
-    public ExeResult getCalendarById(@RequestBody CalendarGetByIdReq req) {
+    public ExeResult getCalendarById(@RequestBody @Validated CalendarGetByIdReq req) {
         return ExeResult.getInstance(calendarService.getCalendarById(req.getId()));
     }
 
+    @IgnoreSecurity
     @ApiOperation(value = "获取所有", notes = "获取所有日历")
     @RequestMapping(value = "/get-list", method = RequestMethod.POST)
     public ExeResult getCalendarList() {
         return ExeResult.getInstance(calendarService.getCalendarList());
     }
 
+    @IgnoreSecurity
     @ApiOperation(value = "分页获取", notes = "分页获取日历")
     @RequestMapping(value = "/get-list-by-page", method = RequestMethod.POST)
-    public ExeResult getCalendarListByPage(@RequestBody CalendarGetByPageReq req) {
+    public ExeResult getCalendarListByPage(@RequestBody @Validated CalendarGetByPageReq req) {
         return ExeResult.getInstance(calendarService.getCalendarListByPage(req.getPage(), req.getSize()));
     }
 
     @ApiOperation(value = "新增", notes = "新增一条日历")
+    @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ExeResult addCalendar(@RequestBody CalendarAddReq req) {
+    public ExeResult addCalendar(@RequestBody @Validated CalendarAddReq req) {
         return ExeResult.getInstance(calendarService.addCalendar(req.getTitle(), req.getDescription(), req.getRemark()));
     }
 
     @ApiOperation(value = "修改", notes = "修改指定日历")
+    @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public ExeResult modifyCalendar(@RequestBody CalendarModifyReq req) {
+    public ExeResult modifyCalendar(@RequestBody @Validated CalendarModifyReq req) {
         return ExeResult.getInstance(calendarService.modifyCalendar(req.getId(), req.getTitle(), req.getDescription(), req.getRemark()));
     }
 
     @ApiOperation(value = "删除", notes = "删除指定日历")
+    @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/del", method = RequestMethod.POST)
-    public ExeResult modifyCalendar(@RequestBody CalendarDelByIdReq req) {
+    public ExeResult modifyCalendar(@RequestBody @Validated CalendarDelByIdReq req) {
         return ExeResult.getInstance(calendarService.delCalendarById(req.getId()));
     }
 }

@@ -33,7 +33,8 @@ public class BookUpdateTimeServiceImpl implements BookUpdateTimeService {
     }
 
     @Override
-    public BookUpdateTimeInfo getNearestTime() {
-        return bookUpdateTimeMapper.getNearestTime();
+    public String getNearestTime() {
+        BookUpdateTimeInfo bookUpdateTimeInfo = bookUpdateTimeMapper.getNearestTime();
+        return DATE_FORMAT.format(bookUpdateTimeInfo.getUpdateTime());
     }
 }

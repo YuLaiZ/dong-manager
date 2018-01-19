@@ -51,8 +51,8 @@
     <update id="modifyAd" parameterType="com.yulaiz.dong.web.model.entity.AdInfo">
         UPDATE d_ad
         SET
-            title = #{item.title}
-        AND description = #{item.description}
+            title = #{item.title},
+            description = #{item.description}
         WHERE
             id = #{item.id}
     </update>

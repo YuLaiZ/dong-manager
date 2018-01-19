@@ -55,9 +55,9 @@
     <update id="modifyCalendar" parameterType="com.yulaiz.dong.web.model.entity.CalendarInfo">
         UPDATE d_calendar
         SET
-            title = #{item.title}
-        AND description = #{item.description}
-        AND remark = #{item.remark}
+            title = #{item.title},
+            description = #{item.description},
+            remark = #{item.remark}
         WHERE
             id = #{item.id}
     </update>
