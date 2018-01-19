@@ -9,10 +9,19 @@ spring:
         username : root
         password : 123456
         driver-class-name : com.mysql.jdbc.Driver
+    redis:
+      database:
+      host: 127.0.0.1
+      port: 6379
+      password:
+
+
 
 mybatis:
     type-aliases-package: com.yulaiz.dong.web.dao
     mapper-locations: classpath:mapper/*.xml
+    configuration:
+      map-underscore-to-camel-case: true
 
 logging:
     file: logs/test.log
