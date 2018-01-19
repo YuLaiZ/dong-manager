@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yulaiz.dong.web.dao.UserMapper">
+    <select id="checkUser" resultType="com.yulaiz.dong.web.model.entity.UserInfo">
+        SELECT
+            u.id,
+            u.user_name,
+            u.password,
+            u.create_time
+        FROM
+            d_user u
+        WHERE 1 = 1
+        AND u.user_name = #{userName}
+        AND u.password = #{password}
+    </select>
+
+    <select id="getUserById" resultType="com.yulaiz.dong.web.model.entity.UserInfo">
+        SELECT
+            u.id,
+            u.user_name,
+            u.password,
+            u.create_time
+        FROM
+            d_user u
+        WHERE 1 = 1
+        AND u.id = #{id}
+    </select>
+</mapper>
