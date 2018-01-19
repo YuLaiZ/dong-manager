@@ -27,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     private final static String ACCESS_TOKEN = "ACCESS_TOKEN_";
 
+    //token超时时间（单位秒）
+    private static final long DEFAULT_TOKEN_EXPIRE = 30L;
+
 
     @Override
     public String login(String userName, String password) {
@@ -35,7 +38,7 @@ public class UserServiceImpl implements UserService {
             throw new ExeResultException("用户名或密码错误");
         }
         String token = ACCESS_TOKEN + UUIDUtil.getUUID();
-        stringRedisTemplate.opsForValue().set(token, userInfo.getId(), 24 * 60L, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(token, userInfo.getUuid(), DEFAULT_TOKEN_EXPIRE, TimeUnit.MINUTES);
         return token;
     }
 
@@ -45,7 +48,7 @@ public class UserServiceImpl implements UserService {
         if (userId == null) {
             throw new ExeResultException("无效token");
         }
-        UserInfo userInfo = userMapper.getUserById(userId);
+        UserInfo userInfo = userMapper.getUserByUUId(userId);
         if (userInfo == null) {
             throw new ExeResultException("无效token");
         }

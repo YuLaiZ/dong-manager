@@ -31,8 +31,8 @@ public class InterceptorConfiguration extends WebMvcConfigurerAdapter {
         InterceptorRegistration ir = registry.addInterceptor(myAuthInterceptor());
         // 配置拦截的路径
         ir.addPathPatterns("/**");
-        // 配置不拦截的路径
-        ir.excludePathPatterns("**/swagger-ui.html");
+//         配置不拦截的路径
+//        ir.excludePathPatterns("**/swagger-ui.html");
 
         // 还可以在这里注册其它的拦截器
         //registry.addInterceptor(new OtherInterceptor()).addPathPatterns("/**");

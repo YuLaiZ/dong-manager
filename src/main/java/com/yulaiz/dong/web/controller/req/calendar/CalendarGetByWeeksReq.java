@@ -11,16 +11,16 @@ import java.io.Serializable;
  * Created by YuLai on 2018/1/18.
  */
 @Data
-public class CalendarGetByPageReq implements Serializable {
+public class CalendarGetByWeeksReq implements Serializable {
 
     private static final long serialVersionUID = -662772502930701376L;
 
-    @ApiModelProperty("页数，从0页开始")
-    @Min(value = 0, message = "页数必须从0页开始的证书")
-    private int page;
+    @ApiModelProperty("周数，从1周开始")
+    @Min(value = 1, message = "周数必须从1周开始的整数")
+    private int weeksBegin;
 
-    @ApiModelProperty("每页数量")
-    @Max(value = 20, message = "每页最大20")
-    @Min(value = 1, message = "每页最小1")
-    private int size;
+    @ApiModelProperty("几周")
+    @Max(value = 20, message = "最大20周")
+    @Min(value = 1, message = "最小1周")
+    private int weeksSize;
 }

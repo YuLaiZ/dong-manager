@@ -1,8 +1,7 @@
 package com.yulaiz.dong.web.service;
 
 import com.yulaiz.dong.web.model.entity.CalendarInfo;
-
-import java.util.List;
+import com.yulaiz.dong.web.model.vo.CalendarListVo;
 
 /**
  * Created by YuLai on 2018/1/18.
@@ -11,9 +10,9 @@ public interface CalendarService {
 
     CalendarInfo getCalendarById(String id);
 
-    List<CalendarInfo> getCalendarList();
+    CalendarListVo getCalendarList();
 
-    List<CalendarInfo> getCalendarListByPage(int page, int size);
+    CalendarListVo getCalendarListByWeeks(int weeksBegin, int weeksSize);
 
     boolean addCalendar(String title, String description, String remark);
 

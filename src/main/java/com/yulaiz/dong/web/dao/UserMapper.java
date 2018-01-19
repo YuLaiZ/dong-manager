@@ -14,4 +14,6 @@ public interface UserMapper {
     UserInfo checkUser(@Param("userName") String userName, @Param("password") String password);
 
     UserInfo getUserById(@Param("id") String id);
+
+    UserInfo getUserByUUId(@Param("uuid") String uuid);
 }

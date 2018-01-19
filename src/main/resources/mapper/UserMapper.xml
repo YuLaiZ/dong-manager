@@ -6,6 +6,7 @@
     <select id="checkUser" resultType="com.yulaiz.dong.web.model.entity.UserInfo">
         SELECT
             u.id,
+            u.uuid,
             u.user_name,
             u.password,
             u.create_time
@@ -19,6 +20,7 @@
     <select id="getUserById" resultType="com.yulaiz.dong.web.model.entity.UserInfo">
         SELECT
             u.id,
+            u.uuid,
             u.user_name,
             u.password,
             u.create_time
@@ -26,5 +28,18 @@
             d_user u
         WHERE 1 = 1
         AND u.id = #{id}
+    </select>
+
+    <select id="getUserByUUId" resultType="com.yulaiz.dong.web.model.entity.UserInfo">
+        SELECT
+            u.id,
+            u.uuid,
+            u.user_name,
+            u.password,
+            u.create_time
+        FROM
+            d_user u
+        WHERE 1 = 1
+        AND u.uuid = #{uuid}
     </select>
 </mapper>

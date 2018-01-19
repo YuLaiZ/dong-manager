@@ -28,6 +28,13 @@
             c.id DESC
     </select>
 
+    <select id="countCalendarList" resultType="java.lang.Integer">
+        SELECT
+            COUNT( c.id )
+        FROM
+            d_calendar c
+    </select>
+
     <select id="getCalendarListByPage" resultType="com.yulaiz.dong.web.model.entity.CalendarInfo">
         SELECT
             c.id,
@@ -39,6 +46,21 @@
         ORDER BY
             c.id DESC
         LIMIT #{offset},#{size}
+    </select>
+
+    <select id="getCalendarListByWeeks" resultType="com.yulaiz.dong.web.model.entity.CalendarInfo">
+        SELECT
+            c.id,
+            c.title,
+            c.description,
+            c.remark
+        FROM
+            d_calendar c
+        WHERE 1 = 1
+        <![CDATA[ AND c.id >= ( #{weeksBegin} - 1 ) * 7 ]]>
+        <![CDATA[ AND c.id <= ( #{weeksBegin} + #{weeksSize} - 1 ) * 7 ]]>
+        ORDER BY
+            c.id DESC
     </select>
 
     <insert id="addCalendar" parameterType="com.yulaiz.dong.web.model.entity.CalendarInfo">

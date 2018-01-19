@@ -18,7 +18,11 @@ public interface CalendarMapper {
 
     List<CalendarInfo> getCalendarList();
 
+    int countCalendarList();
+
     List<CalendarInfo> getCalendarListByPage(@Param("offset") int offset, @Param("size") int size);
+
+    List<CalendarInfo> getCalendarListByWeeks(@Param("weeksBegin") int weeksBegin, @Param("weeksSize") int weeksSize);
 
     int addCalendar(@Param("item") CalendarInfo calendarInfo);
 

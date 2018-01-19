@@ -15,8 +15,8 @@ public class AdGetByPageReq implements Serializable {
 
     private static final long serialVersionUID = -3031740388569966569L;
 
-    @ApiModelProperty("页数，从0页开始")
-    @Min(value = 0, message = "页数必须从0页开始的证书")
+    @ApiModelProperty("页数，从1页开始")
+    @Min(value = 1, message = "页数必须从1页开始的整数")
     private int page;
 
     @ApiModelProperty("每页数量")

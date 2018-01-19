@@ -16,6 +16,9 @@ public class UserInfo implements Serializable {
     @ApiModelProperty("ID")
     private String id;
 
+    @ApiModelProperty("uuid")
+    private String uuid;
+
     @ApiModelProperty("用户名")
     private String userName;
 

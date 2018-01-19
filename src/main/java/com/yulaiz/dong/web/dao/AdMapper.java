@@ -17,6 +17,8 @@ public interface AdMapper {
 
     List<AdInfo> getAdList();
 
+    int countAdList();
+
     List<AdInfo> getAdListByPage(@Param("offset") int offset, @Param("size") int size);
 
     int addAd(@Param("item") AdInfo adInfo);

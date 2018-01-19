@@ -1,8 +1,7 @@
 package com.yulaiz.dong.web.service;
 
 import com.yulaiz.dong.web.model.entity.AdInfo;
-
-import java.util.List;
+import com.yulaiz.dong.web.model.vo.AdServiceListVo;
 
 /**
  * Created by YuLai on 2018/1/19.
@@ -11,9 +10,9 @@ public interface AdService {
 
     AdInfo getAdById(String id);
 
-    List<AdInfo> getAdList();
+    AdServiceListVo getAdList();
 
-    List<AdInfo> getAdListByPage(int page, int size);
+    AdServiceListVo getAdListByPage(int page, int size);
 
     boolean addAd(String title, String description);
 

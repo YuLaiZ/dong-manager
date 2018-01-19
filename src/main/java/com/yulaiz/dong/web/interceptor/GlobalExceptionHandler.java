@@ -45,8 +45,24 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseBody
     public ExeResult handleDataIntegrityViolationException(DataIntegrityViolationException e) {
-        System.out.println(e.getMessage());
+        log.error(e.getMessage());
         return ExeResult.getInstance("false", "操作数据库失败");
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseBody
+    public ExeResult handleRuntimeException(RuntimeException e) {
+        log.error(e.getMessage());
+        return ExeResult.getInstance("false", "操作失败");
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public ExeResult handleException(Exception e) {
+        log.error(e.getMessage());
+        return ExeResult.getInstance("false", "操作失败");
     }
 
 }

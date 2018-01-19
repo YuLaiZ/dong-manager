@@ -26,6 +26,13 @@
             a.id DESC
     </select>
 
+    <select id="countAdList" resultType="java.lang.Integer">
+        SELECT
+            COUNT( a.id )
+        FROM
+            d_ad a
+    </select>
+
     <select id="getAdListByPage" resultType="com.yulaiz.dong.web.model.entity.AdInfo">
         SELECT
             a.id,

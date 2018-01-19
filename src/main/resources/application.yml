@@ -26,6 +26,6 @@ mybatis:
 logging:
     file: logs/test.log
     level:
-#        root: DEBUG
-#        org.springframework.boot: DEBUG
-        com.yulaiz.dong.web: DEBUG
+        root: error
+        org.springframework.boot: error
+        com.yulaiz.dong.web: debug
