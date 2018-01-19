@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yulaiz.dong.web.dao.AdMapper">
+    <select id="getAdById" resultType="com.yulaiz.dong.web.model.entity.AdInfo">
+        SELECT
+            a.id,
+            a.title,
+            a.description
+        FROM
+            d_ad a
+        WHERE
+            1 = 1
+            AND id = #{id}
+    </select>
+
+    <select id="getAdList" resultType="com.yulaiz.dong.web.model.entity.AdInfo">
+        SELECT
+            a.id,
+            a.title,
+            a.description
+        FROM
+            d_ad a
+        ORDER BY
+            a.id DESC
+    </select>
+
+    <select id="getAdListByPage" resultType="com.yulaiz.dong.web.model.entity.AdInfo">
+        SELECT
+            a.id,
+            a.title,
+            a.description
+        FROM
+            d_ad a
+        ORDER BY
+            a.id DESC
+        LIMIT #{offset},#{size}
+    </select>
+
+    <insert id="addAd" parameterType="com.yulaiz.dong.web.model.entity.AdInfo">
+        INSERT INTO d_ad (
+            title, description
+        )
+        VALUES (
+            #{item.title},
+            #{item.description},
+        )
+    </insert>
+
+    <update id="modifyAd" parameterType="com.yulaiz.dong.web.model.entity.AdInfo">
+        UPDATE d_ad
+        SET
+            title = #{item.title}
+        AND description = #{item.description}
+        WHERE
+            id = #{item.id}
+    </update>
+
+    <delete id="delAdById" parameterType="java.lang.String">
+        DELETE
+        FROM
+            d_ad
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>

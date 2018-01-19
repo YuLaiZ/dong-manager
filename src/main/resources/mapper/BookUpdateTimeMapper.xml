@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yulaiz.dong.web.dao.BookUpdateTimeMapper">
+    <select id="getNearestTime" resultType="com.yulaiz.dong.web.model.entity.BookUpdateTimeInfo">
+        SELECT
+            t.id,
+            t.`update_time`
+        FROM
+            d_book_update_time t
+        ORDER BY
+            t.id DESC
+            LIMIT 1
+    </select>
+
+    <insert id="addBookUpdateTime" parameterType="com.yulaiz.dong.web.model.entity.BookUpdateTimeInfo">
+        INSERT INTO d_book_update_time (
+            `update_time`
+        )
+        VALUES (
+            #{item.updateTime}
+        )
+    </insert>
+</mapper>

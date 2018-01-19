@@ -1,5 +1,6 @@
-package com.yulaiz.dong.web.controller.req;
+package com.yulaiz.dong.web.controller.req.calendar;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,5 +13,6 @@ public class CalendarGetByIdReq implements Serializable {
 
     private static final long serialVersionUID = -9102652134189391153L;
 
+    @ApiModelProperty("日历ID")
     private String id;
 }
