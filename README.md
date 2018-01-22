@@ -1,3 +1,12 @@
 # dong-manager
 董师傅的妖孽人生后台管理接口
-已完成
+
+已部署的项目接口文档地址：[http://yulaiz.com/dong-manager/](http://yulaiz.com/dong-manager/)
+
+使用的框架与资源
+1. spring boot
+2. mybatis
+3. mysql
+4. redis
+5. lombok
+6. swagger-ui
