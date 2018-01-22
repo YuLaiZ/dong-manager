@@ -13,7 +13,7 @@ spring:
       database: 0
       host: 127.0.0.1
       port: 6379
-      password:
+      password: 
 
 
 
@@ -24,8 +24,8 @@ mybatis:
       map-underscore-to-camel-case: true
 
 logging:
-    file: logs/test.log
+    file: ${catalina.base}/logs/test.log
     level:
-        root: error
+        root: debug
         org.springframework.boot: error
         com.yulaiz.dong.web: debug

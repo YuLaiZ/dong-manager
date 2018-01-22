@@ -3,6 +3,7 @@ package com.yulaiz.dong.web.config;
 import com.yulaiz.dong.web.interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -11,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * Created by YuLai on 2018/1/19.
  */
 @Configuration
-public class InterceptorConfiguration extends WebMvcConfigurerAdapter {
+public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
 
     //关键，将拦截器作为bean写入配置中
     @Bean
@@ -36,5 +37,19 @@ public class InterceptorConfiguration extends WebMvcConfigurerAdapter {
 
         // 还可以在这里注册其它的拦截器
         //registry.addInterceptor(new OtherInterceptor()).addPathPatterns("/**");
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>This implementation is empty.
+     *
+     * @param registry
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .allowedOrigins("*");
     }
 }
