@@ -1,8 +1,10 @@
 package com.yulaiz.dong.web.controller;
 
+import com.yulaiz.dong.web.common.annotation.CurrentUser;
 import com.yulaiz.dong.web.common.annotation.IgnoreSecurity;
 import com.yulaiz.dong.web.common.response.ExeResult;
 import com.yulaiz.dong.web.controller.req.bookUpdate.BookUpdateTimeReq;
+import com.yulaiz.dong.web.model.entity.UserInfo;
 import com.yulaiz.dong.web.service.BookUpdateTimeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -37,7 +39,7 @@ public class BookUpdateTimeController {
     @ApiOperation(value = "更新", notes = "更新最近一次的更新时间")
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ExeResult updateTime(@RequestBody @Validated BookUpdateTimeReq req) {
+    public ExeResult updateTime(@RequestBody @Validated BookUpdateTimeReq req, @CurrentUser UserInfo userInfo) {
         return ExeResult.getInstance(bookUpdateTimeService.addBookUpdateTime(req.getUpdateTime()));
     }
 }

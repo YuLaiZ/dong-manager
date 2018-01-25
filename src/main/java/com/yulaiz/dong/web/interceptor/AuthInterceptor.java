@@ -54,6 +54,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         String token = request.getHeader("ACCESS_TOKEN");
         log.debug("token: " + token);
         UserInfo userInfo = userService.getUserByToken(token);
+        request.setAttribute("currentUser", userInfo);
         return true;
 
     }

@@ -1,5 +1,6 @@
 package com.yulaiz.dong.web;
 
+import com.yulaiz.dong.web.common.annotation.CurrentUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -24,7 +25,8 @@ public class Swagger2 {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.yulaiz.dong.web"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .ignoredParameterTypes(CurrentUser.class);
     }
 
     private ApiInfo apiInfo() {

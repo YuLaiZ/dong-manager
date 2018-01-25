@@ -1,8 +1,10 @@
 package com.yulaiz.dong.web.controller;
 
+import com.yulaiz.dong.web.common.annotation.CurrentUser;
 import com.yulaiz.dong.web.common.annotation.IgnoreSecurity;
 import com.yulaiz.dong.web.common.response.ExeResult;
 import com.yulaiz.dong.web.controller.req.ad.*;
+import com.yulaiz.dong.web.model.entity.UserInfo;
 import com.yulaiz.dong.web.service.AdService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -51,21 +53,21 @@ public class AdController {
     @ApiOperation(value = "新增", notes = "新增一条广告")
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ExeResult addAd(@RequestBody @Validated AdAddReq req) {
+    public ExeResult addAd(@RequestBody @Validated AdAddReq req, @CurrentUser UserInfo userInfo) {
         return ExeResult.getInstance(adService.addAd(req.getTitle(), req.getDescription()));
     }
 
     @ApiOperation(value = "修改", notes = "修改指定广告")
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public ExeResult modifyAd(@RequestBody @Validated AdModifyReq req) {
+    public ExeResult modifyAd(@RequestBody @Validated AdModifyReq req, @CurrentUser UserInfo userInfo) {
         return ExeResult.getInstance(adService.modifyAd(req.getId(), req.getTitle(), req.getDescription()));
     }
 
     @ApiOperation(value = "删除", notes = "删除指定广告")
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/del", method = RequestMethod.POST)
-    public ExeResult modifyAd(@RequestBody @Validated AdDelByIdReq req) {
+    public ExeResult modifyAd(@RequestBody @Validated AdDelByIdReq req, @CurrentUser UserInfo userInfo) {
         return ExeResult.getInstance(adService.delAdById(req.getId()));
     }
 }

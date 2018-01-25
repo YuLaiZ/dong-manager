@@ -1,4 +1,4 @@
-package com.yulaiz.dong.web.config;
+package com.yulaiz.dong.web.common.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

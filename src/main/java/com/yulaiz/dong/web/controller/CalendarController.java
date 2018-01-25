@@ -1,8 +1,10 @@
 package com.yulaiz.dong.web.controller;
 
+import com.yulaiz.dong.web.common.annotation.CurrentUser;
 import com.yulaiz.dong.web.common.annotation.IgnoreSecurity;
 import com.yulaiz.dong.web.common.response.ExeResult;
 import com.yulaiz.dong.web.controller.req.calendar.*;
+import com.yulaiz.dong.web.model.entity.UserInfo;
 import com.yulaiz.dong.web.service.CalendarService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -51,21 +53,21 @@ public class CalendarController {
     @ApiOperation(value = "新增", notes = "新增一条日历")
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ExeResult addCalendar(@RequestBody @Validated CalendarAddReq req) {
+    public ExeResult addCalendar(@RequestBody @Validated CalendarAddReq req, @CurrentUser UserInfo userInfo) {
         return ExeResult.getInstance(calendarService.addCalendar(req.getTitle(), req.getDescription(), req.getRemark()));
     }
 
     @ApiOperation(value = "修改", notes = "修改指定日历")
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public ExeResult modifyCalendar(@RequestBody @Validated CalendarModifyReq req) {
+    public ExeResult modifyCalendar(@RequestBody @Validated CalendarModifyReq req, @CurrentUser UserInfo userInfo) {
         return ExeResult.getInstance(calendarService.modifyCalendar(req.getId(), req.getTitle(), req.getDescription(), req.getRemark()));
     }
 
     @ApiOperation(value = "删除", notes = "删除指定日历")
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/del", method = RequestMethod.POST)
-    public ExeResult modifyCalendar(@RequestBody @Validated CalendarDelByIdReq req) {
+    public ExeResult modifyCalendar(@RequestBody @Validated CalendarDelByIdReq req, @CurrentUser UserInfo userInfo) {
         return ExeResult.getInstance(calendarService.delCalendarById(req.getId()));
     }
 }

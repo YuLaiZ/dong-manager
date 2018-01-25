@@ -1,12 +1,15 @@
-package com.yulaiz.dong.web.config;
+package com.yulaiz.dong.web.common.config;
 
 import com.yulaiz.dong.web.interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.List;
 
 /**
  * Created by YuLai on 2018/1/19.
@@ -51,5 +54,22 @@ public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
                 .allowedHeaders("*")
                 .allowedMethods("*")
                 .allowedOrigins("*");
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>This implementation is empty.
+     *
+     * @param argumentResolvers
+     */
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(currentUserMethodArgumentResolver());
+        super.addArgumentResolvers(argumentResolvers);
+    }
+
+    @Bean
+    public CurrentUserMethodArgumentResolver currentUserMethodArgumentResolver() {
+        return new CurrentUserMethodArgumentResolver();
     }
 }
