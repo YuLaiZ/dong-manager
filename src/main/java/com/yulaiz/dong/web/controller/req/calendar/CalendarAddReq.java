@@ -14,6 +14,10 @@ public class CalendarAddReq implements Serializable {
 
     private static final long serialVersionUID = -5139640489307730235L;
 
+    @ApiModelProperty("日历天数")
+    @NotBlank(message = "日历天数")
+    private String days;
+
     @ApiModelProperty("日历标题")
     @NotBlank(message = "标题不能为空")
     private String title;

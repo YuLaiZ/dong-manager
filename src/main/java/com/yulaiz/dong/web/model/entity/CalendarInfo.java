@@ -16,6 +16,9 @@ public class CalendarInfo implements Serializable {
     @ApiModelProperty("日历ID")
     private String id;
 
+    @ApiModelProperty("日历天数")
+    private String days;
+
     @ApiModelProperty("日历标题")
     private String title;
 

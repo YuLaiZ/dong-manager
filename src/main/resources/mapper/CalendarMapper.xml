@@ -6,6 +6,7 @@
     <select id="getCalendarById" resultType="com.yulaiz.dong.web.model.vo.CalendarVo">
         SELECT
             c.id,
+            c.days,
             c.title,
             c.description,
             c.remark
@@ -20,6 +21,7 @@
     <select id="getCalendarList" resultType="com.yulaiz.dong.web.model.vo.CalendarVo">
         SELECT
             c.id,
+            c.days,
             c.title,
             c.description,
             c.remark
@@ -29,7 +31,7 @@
             1 = 1
             AND c.flag = TRUE
         ORDER BY
-            c.id DESC
+            c.days DESC
     </select>
 
     <select id="countCalendarList" resultType="java.lang.Integer">
@@ -45,6 +47,7 @@
     <select id="getCalendarListByPage" resultType="com.yulaiz.dong.web.model.vo.CalendarVo">
         SELECT
             c.id,
+            c.days,
             c.title,
             c.description,
             c.remark
@@ -54,13 +57,14 @@
             1 = 1
             AND c.flag = TRUE
         ORDER BY
-            c.id DESC
+            c.days DESC
         LIMIT #{offset},#{size}
     </select>
 
     <select id="getCalendarListByWeeks" resultType="com.yulaiz.dong.web.model.vo.CalendarVo">
         SELECT
             c.id,
+            c.days,
             c.title,
             c.description,
             c.remark
@@ -69,17 +73,18 @@
         WHERE
             1 = 1
             AND c.flag = TRUE
-            <![CDATA[ AND c.id >= ( #{weeksBegin} - 1 ) * 7 ]]>
-            <![CDATA[ AND c.id <= ( #{weeksBegin} + #{weeksSize} - 1 ) * 7 ]]>
+            <![CDATA[ AND c.days >= ( #{weeksBegin} - 1 ) * 7 ]]>
+            <![CDATA[ AND c.days <= ( #{weeksBegin} + #{weeksSize} - 1 ) * 7 ]]>
         ORDER BY
-            c.id DESC
+            c.days DESC
     </select>
 
     <insert id="addCalendar" parameterType="com.yulaiz.dong.web.model.entity.CalendarInfo">
         INSERT INTO d_calendar (
-            title, description, remark, flag, create_user_id, create_time, modify_user_id, modify_time
+            days, title, description, remark, flag, create_user_id, create_time, modify_user_id, modify_time
         )
         VALUES (
+            #{item.days},
             #{item.title},
             #{item.description},
             #{item.remark},
@@ -94,6 +99,7 @@
     <update id="modifyCalendar" parameterType="com.yulaiz.dong.web.model.entity.CalendarInfo">
         UPDATE d_calendar c
         SET
+            c.days = #{item.days},
             c.title = #{item.title},
             c.description = #{item.description},
             c.remark = #{item.remark},

@@ -84,8 +84,9 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public boolean addCalendar(String title, String description, String remark, UserInfo userInfo) {
+    public boolean addCalendar(String days, String title, String description, String remark, UserInfo userInfo) {
         CalendarInfo calendarInfo = new CalendarInfo();
+        calendarInfo.setDays(days);
         calendarInfo.setTitle(title);
         calendarInfo.setDescription(description);
         calendarInfo.setRemark(remark);
@@ -98,9 +99,10 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public boolean modifyCalendar(String id, String title, String description, String remark, UserInfo userInfo) {
+    public boolean modifyCalendar(String id, String days, String title, String description, String remark, UserInfo userInfo) {
         CalendarInfo calendarInfo = new CalendarInfo();
         calendarInfo.setId(id);
+        calendarInfo.setDays(days);
         calendarInfo.setTitle(title);
         calendarInfo.setDescription(description);
         calendarInfo.setRemark(remark);

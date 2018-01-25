@@ -54,7 +54,13 @@ public class CalendarController {
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ExeResult addCalendar(@RequestBody @Validated CalendarAddReq req, @CurrentUser UserInfo userInfo) {
-        return ExeResult.getInstance(calendarService.addCalendar(req.getTitle(), req.getDescription(), req.getRemark(), userInfo));
+        return ExeResult.getInstance(
+                calendarService.addCalendar(
+                        req.getDays(),
+                        req.getTitle(),
+                        req.getDescription(),
+                        req.getRemark(),
+                        userInfo));
     }
 
     @ApiOperation(value = "修改", notes = "修改指定日历")
@@ -64,6 +70,7 @@ public class CalendarController {
         return ExeResult.getInstance(
                 calendarService.modifyCalendar(
                         req.getId(),
+                        req.getDays(),
                         req.getTitle(),
                         req.getDescription(),
                         req.getRemark(),

@@ -15,9 +15,9 @@ public interface CalendarService {
 
     CalendarListVo getCalendarListByWeeks(int weeksBegin, int weeksSize);
 
-    boolean addCalendar(String title, String description, String remark, UserInfo userInfo);
+    boolean addCalendar(String days, String title, String description, String remark, UserInfo userInfo);
 
-    boolean modifyCalendar(String id, String title, String description, String remark, UserInfo userInfo);
+    boolean modifyCalendar(String id, String days, String title, String description, String remark, UserInfo userInfo);
 
     boolean delCalendarById(String id, UserInfo userInfo);
 }

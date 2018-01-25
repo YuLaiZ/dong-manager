@@ -18,6 +18,10 @@ public class CalendarModifyReq implements Serializable {
     @NotBlank(message = "ID不能为空")
     private String id;
 
+    @ApiModelProperty("日历天数")
+    @NotBlank(message = "日历天数")
+    private String days;
+
     @ApiModelProperty("日历标题")
     @NotBlank(message = "标题不能为空")
     private String title;
