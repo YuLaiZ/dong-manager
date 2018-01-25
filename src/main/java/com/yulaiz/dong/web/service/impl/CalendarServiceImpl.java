@@ -50,11 +50,6 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public CalendarListVo getCalendarList() {
-        Object total = redisTemplate.opsForValue().get(REDIS_TOTAL);
-        if (total == null) {
-            total = calendarMapper.countCalendarList();
-            redisTemplate.opsForValue().set(REDIS_TOTAL, total);
-        }
         List<CalendarVo> calendarVos = (List<CalendarVo>) redisTemplate.opsForValue().get(REDIS_LIST_HEADER + "ALL");
         if (calendarVos == null) {
             calendarVos = calendarMapper.getCalendarList();
@@ -62,26 +57,30 @@ public class CalendarServiceImpl implements CalendarService {
         }
         CalendarListVo calendarListVo = new CalendarListVo();
         calendarListVo.setList(calendarVos);
-        calendarListVo.setTotal((Integer) total);
+        calendarListVo.setTotal(getTotal());
         return calendarListVo;
     }
 
     @Override
     public CalendarListVo getCalendarListByWeeks(int weeksBegin, int weeksSize) {
-        CalendarListVo calendarListVo = new CalendarListVo();
         List<CalendarVo> calendarVos = (List<CalendarVo>) redisTemplate.opsForValue().get(REDIS_LIST_HEADER + weeksBegin + "_" + weeksSize);
         if (calendarVos == null) {
             calendarVos = calendarMapper.getCalendarListByWeeks(weeksBegin, weeksSize);
             redisTemplate.opsForValue().set(REDIS_LIST_HEADER + weeksBegin + "_" + weeksSize, calendarVos);
         }
+        CalendarListVo calendarListVo = new CalendarListVo();
+        calendarListVo.setList(calendarVos);
+        calendarListVo.setTotal(getTotal());
+        return calendarListVo;
+    }
+
+    private int getTotal() {
         Object total = redisTemplate.opsForValue().get(REDIS_TOTAL);
         if (total == null) {
             total = calendarMapper.countCalendarList();
             redisTemplate.opsForValue().set(REDIS_TOTAL, total);
         }
-        calendarListVo.setList(calendarVos);
-        calendarListVo.setTotal((Integer) total);
-        return calendarListVo;
+        return (Integer) total;
     }
 
     @Override

@@ -50,11 +50,6 @@ public class AdServiceImpl implements AdService {
 
     @Override
     public AdServiceListVo getAdList() {
-        Object total = redisTemplate.opsForValue().get(REDIS_TOTAL);
-        if (total == null) {
-            total = adMapper.countAdList();
-            redisTemplate.opsForValue().set(REDIS_TOTAL, total);
-        }
         List<AdVo> adVos = (List<AdVo>) redisTemplate.opsForValue().get(REDIS_LIST_HEADER + "ALL");
         if (adVos == null) {
             adVos = adMapper.getAdList();
@@ -62,26 +57,30 @@ public class AdServiceImpl implements AdService {
         }
         AdServiceListVo adServiceListVo = new AdServiceListVo();
         adServiceListVo.setList(adVos);
-        adServiceListVo.setTotal((Integer) total);
+        adServiceListVo.setTotal(getTotal());
         return adServiceListVo;
     }
 
     @Override
     public AdServiceListVo getAdListByPage(int page, int size) {
-        AdServiceListVo adServiceListVo = new AdServiceListVo();
         List<AdVo> adVos = (List<AdVo>) redisTemplate.opsForValue().get(REDIS_LIST_HEADER + page + "_" + size);
         if (adVos == null) {
             adVos = adMapper.getAdListByPage((page - 1) * size, size);
             redisTemplate.opsForValue().set(REDIS_LIST_HEADER + page + "_" + size, adVos);
         }
+        AdServiceListVo adServiceListVo = new AdServiceListVo();
+        adServiceListVo.setList(adVos);
+        adServiceListVo.setTotal(getTotal());
+        return adServiceListVo;
+    }
+
+    private int getTotal() {
         Object total = redisTemplate.opsForValue().get(REDIS_TOTAL);
         if (total == null) {
             total = adMapper.countAdList();
             redisTemplate.opsForValue().set(REDIS_TOTAL, total);
         }
-        adServiceListVo.setList(adVos);
-        adServiceListVo.setTotal((Integer) total);
-        return adServiceListVo;
+        return (Integer) total;
     }
 
     @Override
