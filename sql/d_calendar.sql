@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 25/01/2018 14:55:17
+ Date: 25/01/2018 15:25:35
 */
 
 SET NAMES utf8mb4;
@@ -27,6 +27,10 @@ CREATE TABLE `d_calendar`  (
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `flag` tinyint(4) NULL DEFAULT NULL,
+  `create_user_id` int(11) NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL,
+  `modify_user_id` int(11) NULL DEFAULT NULL,
+  `modify_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `d_calendar_idx_id`(`id`) USING BTREE,
   INDEX `d_calendar_idx_flag`(`flag`) USING BTREE
