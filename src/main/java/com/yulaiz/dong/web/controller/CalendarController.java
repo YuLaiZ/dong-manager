@@ -61,7 +61,13 @@ public class CalendarController {
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public ExeResult modifyCalendar(@RequestBody @Validated CalendarModifyReq req, @CurrentUser UserInfo userInfo) {
-        return ExeResult.getInstance(calendarService.modifyCalendar(req.getId(), req.getTitle(), req.getDescription(), req.getRemark(), userInfo));
+        return ExeResult.getInstance(
+                calendarService.modifyCalendar(
+                        req.getId(),
+                        req.getTitle(),
+                        req.getDescription(),
+                        req.getRemark(),
+                        userInfo));
     }
 
     @ApiOperation(value = "删除", notes = "删除指定日历")

@@ -61,7 +61,12 @@ public class AdController {
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public ExeResult modifyAd(@RequestBody @Validated AdModifyReq req, @CurrentUser UserInfo userInfo) {
-        return ExeResult.getInstance(adService.modifyAd(req.getId(), req.getTitle(), req.getDescription(), userInfo));
+        return ExeResult.getInstance(
+                adService.modifyAd(
+                        req.getId(),
+                        req.getTitle(),
+                        req.getDescription(),
+                        userInfo));
     }
 
     @ApiOperation(value = "删除", notes = "删除指定广告")

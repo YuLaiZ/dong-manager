@@ -55,8 +55,13 @@ public class AdServiceImpl implements AdService {
             total = adMapper.countAdList();
             redisTemplate.opsForValue().set(REDIS_TOTAL, total);
         }
+        List<AdVo> adVos = (List<AdVo>) redisTemplate.opsForValue().get(REDIS_LIST_HEADER + "ALL");
+        if (adVos == null) {
+            adVos = adMapper.getAdList();
+            redisTemplate.opsForValue().set(REDIS_LIST_HEADER + "ALL", adVos);
+        }
         AdServiceListVo adServiceListVo = new AdServiceListVo();
-        adServiceListVo.setList(adMapper.getAdList());
+        adServiceListVo.setList(adVos);
         adServiceListVo.setTotal((Integer) total);
         return adServiceListVo;
     }

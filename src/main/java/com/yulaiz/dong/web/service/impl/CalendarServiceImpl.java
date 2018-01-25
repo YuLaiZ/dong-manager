@@ -55,8 +55,13 @@ public class CalendarServiceImpl implements CalendarService {
             total = calendarMapper.countCalendarList();
             redisTemplate.opsForValue().set(REDIS_TOTAL, total);
         }
+        List<CalendarVo> calendarVos = (List<CalendarVo>) redisTemplate.opsForValue().get(REDIS_LIST_HEADER + "ALL");
+        if (calendarVos == null) {
+            calendarVos = calendarMapper.getCalendarList();
+            redisTemplate.opsForValue().set(REDIS_LIST_HEADER + "ALL", calendarVos);
+        }
         CalendarListVo calendarListVo = new CalendarListVo();
-        calendarListVo.setList(calendarMapper.getCalendarList());
+        calendarListVo.setList(calendarVos);
         calendarListVo.setTotal((Integer) total);
         return calendarListVo;
     }
