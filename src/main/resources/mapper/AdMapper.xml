@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yulaiz.dong.web.dao.AdMapper">
-    <select id="getAdById" resultType="com.yulaiz.dong.web.model.entity.AdInfo">
+    <select id="getAdById" resultType="com.yulaiz.dong.web.model.vo.AdVo">
         SELECT
             a.id,
             a.title,
@@ -13,15 +13,19 @@
         WHERE
             1 = 1
             AND id = #{id}
+            AND a.flag = TRUE
     </select>
 
-    <select id="getAdList" resultType="com.yulaiz.dong.web.model.entity.AdInfo">
+    <select id="getAdList" resultType="com.yulaiz.dong.web.model.vo.AdVo">
         SELECT
             a.id,
             a.title,
             a.description
         FROM
             d_ad a
+        WHERE
+            1 = 1
+            AND a.flag = TRUE
         ORDER BY
             a.id DESC
     </select>
@@ -31,15 +35,21 @@
             COUNT( a.id )
         FROM
             d_ad a
+        WHERE
+            1 = 1
+            AND a.flag = TRUE
     </select>
 
-    <select id="getAdListByPage" resultType="com.yulaiz.dong.web.model.entity.AdInfo">
+    <select id="getAdListByPage" resultType="com.yulaiz.dong.web.model.vo.AdVo">
         SELECT
             a.id,
             a.title,
             a.description
         FROM
             d_ad a
+        WHERE
+            1 = 1
+            AND a.flag = TRUE
         ORDER BY
             a.id DESC
         LIMIT #{offset},#{size}
@@ -47,28 +57,40 @@
 
     <insert id="addAd" parameterType="com.yulaiz.dong.web.model.entity.AdInfo">
         INSERT INTO d_ad (
-            title, description
+            title, description, flag, create_user_id, create_time, modify_user_id, modify_time
         )
         VALUES (
             #{item.title},
             #{item.description},
+            TRUE,
+            #{item.userId},
+            now(),
+            #{item.userId},
+            now()
         )
     </insert>
 
     <update id="modifyAd" parameterType="com.yulaiz.dong.web.model.entity.AdInfo">
-        UPDATE d_ad
+        UPDATE d_ad a
         SET
-            title = #{item.title},
-            description = #{item.description}
+            a.title = #{item.title},
+            a.description = #{item.description},
+            a.modify_user_id = #{item.userId},
+            a.modify_time = now()
         WHERE
-            id = #{item.id}
+            1 = 1
+            AND a.id = #{item.id}
+            AND a.flag = TRUE
     </update>
 
-    <delete id="delAdById" parameterType="java.lang.String">
-        DELETE
-        FROM
-            d_ad
+    <update id="delAdById" parameterType="com.yulaiz.dong.web.model.entity.AdInfo">
+        UPDATE d_ad a
+        SET
+            a.flag = FALSE,
+            a.modify_user_id = #{item.userId},
+            a.modify_time = now()
         WHERE
-            id = #{id}
-    </delete>
+            1 = 1
+            AND a.id = #{item.id}
+    </update>
 </mapper>

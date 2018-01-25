@@ -54,20 +54,20 @@ public class AdController {
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ExeResult addAd(@RequestBody @Validated AdAddReq req, @CurrentUser UserInfo userInfo) {
-        return ExeResult.getInstance(adService.addAd(req.getTitle(), req.getDescription()));
+        return ExeResult.getInstance(adService.addAd(req.getTitle(), req.getDescription(), userInfo));
     }
 
     @ApiOperation(value = "修改", notes = "修改指定广告")
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public ExeResult modifyAd(@RequestBody @Validated AdModifyReq req, @CurrentUser UserInfo userInfo) {
-        return ExeResult.getInstance(adService.modifyAd(req.getId(), req.getTitle(), req.getDescription()));
+        return ExeResult.getInstance(adService.modifyAd(req.getId(), req.getTitle(), req.getDescription(), userInfo));
     }
 
     @ApiOperation(value = "删除", notes = "删除指定广告")
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/del", method = RequestMethod.POST)
     public ExeResult modifyAd(@RequestBody @Validated AdDelByIdReq req, @CurrentUser UserInfo userInfo) {
-        return ExeResult.getInstance(adService.delAdById(req.getId()));
+        return ExeResult.getInstance(adService.delAdById(req.getId(), userInfo));
     }
 }

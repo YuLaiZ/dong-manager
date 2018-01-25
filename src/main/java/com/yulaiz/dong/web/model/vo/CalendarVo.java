@@ -1,4 +1,4 @@
-package com.yulaiz.dong.web.model.entity;
+package com.yulaiz.dong.web.model.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -6,12 +6,12 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * Created by YuLai on 2018/1/18.
+ * Created by YuLai on 2018/1/25.
  */
 @Data
-public class CalendarInfo implements Serializable {
+public class CalendarVo implements Serializable {
 
-    private static final long serialVersionUID = 8694850501884281976L;
+    private static final long serialVersionUID = 2482366645663729033L;
 
     @ApiModelProperty("日历ID")
     private String id;
@@ -25,6 +25,4 @@ public class CalendarInfo implements Serializable {
     @ApiModelProperty("日历备注")
     private String remark;
 
-    @ApiModelProperty("操作用户")
-    private String userId;
 }

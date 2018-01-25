@@ -2,13 +2,16 @@ package com.yulaiz.dong.web.service.impl;
 
 import com.yulaiz.dong.web.dao.CalendarMapper;
 import com.yulaiz.dong.web.model.entity.CalendarInfo;
+import com.yulaiz.dong.web.model.entity.UserInfo;
 import com.yulaiz.dong.web.model.vo.CalendarListVo;
+import com.yulaiz.dong.web.model.vo.CalendarVo;
 import com.yulaiz.dong.web.service.CalendarService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +25,7 @@ public class CalendarServiceImpl implements CalendarService {
     @Autowired
     private CalendarMapper calendarMapper;
 
-    @Autowired
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
     private final static String REDIS_HEADER = "CALENDAR_";
@@ -36,13 +39,13 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public CalendarInfo getCalendarById(String id) {
-        CalendarInfo calendarInfo = (CalendarInfo) redisTemplate.opsForValue().get(REDIS_HEADER + id);
-        if (calendarInfo == null) {
-            calendarInfo = calendarMapper.getCalendarById(id);
-            redisTemplate.opsForValue().set(REDIS_HEADER + id, calendarInfo);
+    public CalendarVo getCalendarById(String id) {
+        CalendarVo calendarVo = (CalendarVo) redisTemplate.opsForValue().get(REDIS_HEADER + id);
+        if (calendarVo == null) {
+            calendarVo = calendarMapper.getCalendarById(id);
+            redisTemplate.opsForValue().set(REDIS_HEADER + id, calendarVo);
         }
-        return calendarInfo;
+        return calendarVo;
     }
 
     @Override
@@ -61,27 +64,28 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     public CalendarListVo getCalendarListByWeeks(int weeksBegin, int weeksSize) {
         CalendarListVo calendarListVo = new CalendarListVo();
-        List<CalendarInfo> calendarInfos = (List<CalendarInfo>) redisTemplate.opsForValue().get(REDIS_LIST_HEADER + weeksBegin + "_" + weeksSize);
-        if (calendarInfos == null) {
-            calendarInfos = calendarMapper.getCalendarListByWeeks(weeksBegin, weeksSize);
-            redisTemplate.opsForValue().set(REDIS_LIST_HEADER + weeksBegin + "_" + weeksSize, calendarInfos);
+        List<CalendarVo> calendarVos = (List<CalendarVo>) redisTemplate.opsForValue().get(REDIS_LIST_HEADER + weeksBegin + "_" + weeksSize);
+        if (calendarVos == null) {
+            calendarVos = calendarMapper.getCalendarListByWeeks(weeksBegin, weeksSize);
+            redisTemplate.opsForValue().set(REDIS_LIST_HEADER + weeksBegin + "_" + weeksSize, calendarVos);
         }
         Object total = redisTemplate.opsForValue().get(REDIS_TOTAL);
         if (total == null) {
             total = calendarMapper.countCalendarList();
             redisTemplate.opsForValue().set(REDIS_TOTAL, total);
         }
-        calendarListVo.setList(calendarInfos);
+        calendarListVo.setList(calendarVos);
         calendarListVo.setTotal((Integer) total);
         return calendarListVo;
     }
 
     @Override
-    public boolean addCalendar(String title, String description, String remark) {
+    public boolean addCalendar(String title, String description, String remark, UserInfo userInfo) {
         CalendarInfo calendarInfo = new CalendarInfo();
         calendarInfo.setTitle(title);
         calendarInfo.setDescription(description);
         calendarInfo.setRemark(remark);
+        calendarInfo.setUserId(userInfo.getId());
         if (calendarMapper.addCalendar(calendarInfo) == 1) {
             clearRedis();
             return true;
@@ -90,12 +94,13 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public boolean modifyCalendar(String id, String title, String description, String remark) {
+    public boolean modifyCalendar(String id, String title, String description, String remark, UserInfo userInfo) {
         CalendarInfo calendarInfo = new CalendarInfo();
         calendarInfo.setId(id);
         calendarInfo.setTitle(title);
         calendarInfo.setDescription(description);
         calendarInfo.setRemark(remark);
+        calendarInfo.setUserId(userInfo.getId());
         if (calendarMapper.modifyCalendar(calendarInfo) == 1) {
             clearRedis();
             return true;
@@ -104,8 +109,11 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public boolean delCalendarById(String id) {
-        if (calendarMapper.delCalendarById(id) == 1) {
+    public boolean delCalendarById(String id, UserInfo userInfo) {
+        CalendarInfo calendarInfo = new CalendarInfo();
+        calendarInfo.setId(id);
+        calendarInfo.setUserId(userInfo.getId());
+        if (calendarMapper.delCalendarById(calendarInfo) == 1) {
             clearRedis();
             return true;
         }

@@ -1,22 +1,23 @@
 package com.yulaiz.dong.web.service;
 
-import com.yulaiz.dong.web.model.entity.CalendarInfo;
+import com.yulaiz.dong.web.model.entity.UserInfo;
 import com.yulaiz.dong.web.model.vo.CalendarListVo;
+import com.yulaiz.dong.web.model.vo.CalendarVo;
 
 /**
  * Created by YuLai on 2018/1/18.
  */
 public interface CalendarService {
 
-    CalendarInfo getCalendarById(String id);
+    CalendarVo getCalendarById(String id);
 
     CalendarListVo getCalendarList();
 
     CalendarListVo getCalendarListByWeeks(int weeksBegin, int weeksSize);
 
-    boolean addCalendar(String title, String description, String remark);
+    boolean addCalendar(String title, String description, String remark, UserInfo userInfo);
 
-    boolean modifyCalendar(String id, String title, String description, String remark);
+    boolean modifyCalendar(String id, String title, String description, String remark, UserInfo userInfo);
 
-    boolean delCalendarById(String id);
+    boolean delCalendarById(String id, UserInfo userInfo);
 }

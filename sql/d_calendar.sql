@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 19/01/2018 16:32:29
+ Date: 25/01/2018 14:55:17
 */
 
 SET NAMES utf8mb4;
@@ -26,8 +26,10 @@ CREATE TABLE `d_calendar`  (
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `flag` tinyint(4) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `d_calendar_idx_id`(`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '主日历' ROW_FORMAT = Dynamic;
+  INDEX `d_calendar_idx_id`(`id`) USING BTREE,
+  INDEX `d_calendar_idx_flag`(`flag`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 65 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '主日历' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

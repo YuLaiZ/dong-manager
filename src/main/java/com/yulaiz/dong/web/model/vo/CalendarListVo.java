@@ -1,6 +1,5 @@
 package com.yulaiz.dong.web.model.vo;
 
-import com.yulaiz.dong.web.model.entity.CalendarInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -19,5 +18,5 @@ public class CalendarListVo implements Serializable {
     private int total;
 
     @ApiModelProperty("数据列表")
-    private List<CalendarInfo> list;
+    private List<CalendarVo> list;
 }

@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 19/01/2018 16:32:15
+ Date: 25/01/2018 14:54:29
 */
 
 SET NAMES utf8mb4;
@@ -23,10 +23,12 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `d_ad`;
 CREATE TABLE `d_ad`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `flag` tinyint(4) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `d_ad_idx_id`(`id`) USING BTREE
+  INDEX `d_ad_idx_id`(`id`) USING BTREE,
+  INDEX `d_ad_idx_flag`(`flag`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '广告' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

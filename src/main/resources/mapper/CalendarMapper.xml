@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yulaiz.dong.web.dao.CalendarMapper">
-    <select id="getCalendarById" resultType="com.yulaiz.dong.web.model.entity.CalendarInfo">
+    <select id="getCalendarById" resultType="com.yulaiz.dong.web.model.vo.CalendarVo">
         SELECT
             c.id,
             c.title,
@@ -13,10 +13,11 @@
             d_calendar c
         WHERE
             1 = 1
-            AND id = #{id}
+            AND c.id = #{id}
+            AND c.flag = TRUE
     </select>
 
-    <select id="getCalendarList" resultType="com.yulaiz.dong.web.model.entity.CalendarInfo">
+    <select id="getCalendarList" resultType="com.yulaiz.dong.web.model.vo.CalendarVo">
         SELECT
             c.id,
             c.title,
@@ -24,6 +25,9 @@
             c.remark
         FROM
             d_calendar c
+        WHERE
+            1 = 1
+            AND c.flag = TRUE
         ORDER BY
             c.id DESC
     </select>
@@ -33,9 +37,12 @@
             COUNT( c.id )
         FROM
             d_calendar c
+        WHERE
+            1 = 1
+            AND c.flag = TRUE
     </select>
 
-    <select id="getCalendarListByPage" resultType="com.yulaiz.dong.web.model.entity.CalendarInfo">
+    <select id="getCalendarListByPage" resultType="com.yulaiz.dong.web.model.vo.CalendarVo">
         SELECT
             c.id,
             c.title,
@@ -43,12 +50,15 @@
             c.remark
         FROM
             d_calendar c
+        WHERE
+            1 = 1
+            AND c.flag = TRUE
         ORDER BY
             c.id DESC
         LIMIT #{offset},#{size}
     </select>
 
-    <select id="getCalendarListByWeeks" resultType="com.yulaiz.dong.web.model.entity.CalendarInfo">
+    <select id="getCalendarListByWeeks" resultType="com.yulaiz.dong.web.model.vo.CalendarVo">
         SELECT
             c.id,
             c.title,
@@ -56,39 +66,52 @@
             c.remark
         FROM
             d_calendar c
-        WHERE 1 = 1
-        <![CDATA[ AND c.id >= ( #{weeksBegin} - 1 ) * 7 ]]>
-        <![CDATA[ AND c.id <= ( #{weeksBegin} + #{weeksSize} - 1 ) * 7 ]]>
+        WHERE
+            1 = 1
+            AND c.flag = TRUE
+            <![CDATA[ AND c.id >= ( #{weeksBegin} - 1 ) * 7 ]]>
+            <![CDATA[ AND c.id <= ( #{weeksBegin} + #{weeksSize} - 1 ) * 7 ]]>
         ORDER BY
             c.id DESC
     </select>
 
     <insert id="addCalendar" parameterType="com.yulaiz.dong.web.model.entity.CalendarInfo">
         INSERT INTO d_calendar (
-            title, description, remark
+            title, description, remark, flag, create_user_id, create_time, modify_user_id, modify_time
         )
         VALUES (
             #{item.title},
             #{item.description},
-            #{item.remark}
+            #{item.remark},
+            TRUE,
+            #{item.userId},
+            now(),
+            #{item.userId},
+            now()
         )
     </insert>
 
     <update id="modifyCalendar" parameterType="com.yulaiz.dong.web.model.entity.CalendarInfo">
-        UPDATE d_calendar
+        UPDATE d_calendar c
         SET
-            title = #{item.title},
-            description = #{item.description},
-            remark = #{item.remark}
+            c.title = #{item.title},
+            c.description = #{item.description},
+            c.remark = #{item.remark},
+            c.modify_user_id = #{item.userId},
+            c.modify_time = now()
         WHERE
-            id = #{item.id}
+            1 = 1
+            AND c.id = #{item.id}
     </update>
 
-    <delete id="delCalendarById" parameterType="java.lang.String">
-        DELETE
-        FROM
-            d_calendar
+    <update id="delCalendarById" parameterType="com.yulaiz.dong.web.model.entity.CalendarInfo">
+        UPDATE d_calendar c
+        SET
+            c.flag = FALSE,
+            c.modify_user_id = #{item.userId},
+            c.modify_time = now()
         WHERE
-            id = #{id}
-    </delete>
+            1 = 1
+            AND c.id = #{item.id}
+    </update>
 </mapper>

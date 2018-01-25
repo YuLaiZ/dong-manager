@@ -40,6 +40,6 @@ public class BookUpdateTimeController {
     @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ExeResult updateTime(@RequestBody @Validated BookUpdateTimeReq req, @CurrentUser UserInfo userInfo) {
-        return ExeResult.getInstance(bookUpdateTimeService.addBookUpdateTime(req.getUpdateTime()));
+        return ExeResult.getInstance(bookUpdateTimeService.addBookUpdateTime(req.getUpdateTime(), userInfo));
     }
 }

@@ -19,4 +19,7 @@ public class BookUpdateTimeInfo implements Serializable {
 
     @ApiModelProperty("更新时间")
     private Date updateTime;
+
+    @ApiModelProperty("操作用户")
+    private String userId;
 }

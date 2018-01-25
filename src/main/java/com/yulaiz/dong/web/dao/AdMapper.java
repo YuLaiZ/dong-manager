@@ -1,6 +1,7 @@
 package com.yulaiz.dong.web.dao;
 
 import com.yulaiz.dong.web.model.entity.AdInfo;
+import com.yulaiz.dong.web.model.vo.AdVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -13,17 +14,17 @@ import java.util.List;
 @Mapper
 @Repository
 public interface AdMapper {
-    AdInfo getAdById(@Param("id") String id);
+    AdVo getAdById(@Param("id") String id);
 
-    List<AdInfo> getAdList();
+    List<AdVo> getAdList();
 
     int countAdList();
 
-    List<AdInfo> getAdListByPage(@Param("offset") int offset, @Param("size") int size);
+    List<AdVo> getAdListByPage(@Param("offset") int offset, @Param("size") int size);
 
     int addAd(@Param("item") AdInfo adInfo);
 
     int modifyAd(@Param("item") AdInfo adInfo);
 
-    int delAdById(@Param("id") String id);
+    int delAdById(@Param("item") AdInfo adInfo);
 }
