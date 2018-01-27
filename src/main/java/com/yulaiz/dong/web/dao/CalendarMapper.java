@@ -31,4 +31,6 @@ public interface CalendarMapper {
 
     int delCalendarById(@Param("item") CalendarInfo calendarInfo);
 
+    boolean hasExistCalendarByDays(@Param("days") String days);
+
 }

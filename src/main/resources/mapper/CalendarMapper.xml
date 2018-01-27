@@ -120,4 +120,15 @@
             1 = 1
             AND c.id = #{item.id}
     </update>
+
+    <select id="hasExistCalendarByDays" resultType="java.lang.Boolean">
+        SELECT
+            count( c.days )
+        FROM
+            d_calendar c
+        WHERE
+            1 = 1
+            AND c.flag = TRUE
+            AND c.days = #{days}
+    </select>
 </mapper>

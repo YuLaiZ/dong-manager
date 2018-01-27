@@ -1,5 +1,6 @@
 package com.yulaiz.dong.web.service.impl;
 
+import com.yulaiz.dong.web.common.exception.ExeResultException;
 import com.yulaiz.dong.web.dao.CalendarMapper;
 import com.yulaiz.dong.web.model.entity.CalendarInfo;
 import com.yulaiz.dong.web.model.entity.UserInfo;
@@ -84,7 +85,10 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public boolean addCalendar(String days, String title, String description, String remark, UserInfo userInfo) {
+    public synchronized boolean addCalendar(String days, String title, String description, String remark, UserInfo userInfo) {
+        if (calendarMapper.hasExistCalendarByDays(days)) {
+            throw new ExeResultException("已存在相同的日历天数，请检查后重试");
+        }
         CalendarInfo calendarInfo = new CalendarInfo();
         calendarInfo.setDays(days);
         calendarInfo.setTitle(title);
