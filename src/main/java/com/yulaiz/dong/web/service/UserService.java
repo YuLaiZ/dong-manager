@@ -9,4 +9,8 @@ public interface UserService {
     String login(String userName, String password);
 
     UserInfo getUserByToken(String token);
+
+    String getRegisterLink(String token);
+
+    boolean register(String token, String userName, String password);
 }

@@ -42,4 +42,37 @@
         WHERE 1 = 1
         AND u.uuid = #{uuid}
     </select>
+
+    <select id="checkIsAdministrator" resultType="java.lang.Boolean">
+        SELECT
+            count( u.id )
+        FROM
+            d_user u
+        WHERE
+            1 = 1
+            AND u.role = 'ADMIN'
+            AND u.id = #{id}
+    </select>
+
+    <select id="hasExistUserName" resultType="java.lang.Boolean">
+        SELECT
+            count( u.id )
+        FROM
+            d_user u
+        WHERE
+            1 = 1
+            AND u.user_name = #{userName}
+    </select>
+
+    <insert id="addUser" parameterType="com.yulaiz.dong.web.model.entity.UserInfo">
+        INSERT INTO d_user (
+            uuid, user_name, password, create_time
+        )
+        VALUES (
+            #{item.uuid},
+            #{item.userName},
+            #{item.password},
+            now()
+        )
+    </insert>
 </mapper>

@@ -16,4 +16,10 @@ public interface UserMapper {
     UserInfo getUserById(@Param("id") String id);
 
     UserInfo getUserByUUId(@Param("uuid") String uuid);
+
+    Boolean checkIsAdministrator(@Param("id") String id);
+
+    Boolean hasExistUserName(@Param("userName") String userName);
+
+    int addUser(@Param("item") UserInfo userInfo);
 }
