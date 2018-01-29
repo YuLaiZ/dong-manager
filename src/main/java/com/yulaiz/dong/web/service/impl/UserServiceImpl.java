@@ -1,7 +1,6 @@
 package com.yulaiz.dong.web.service.impl;
 
 import com.yulaiz.dong.web.common.exception.ExeResultException;
-import com.yulaiz.dong.web.common.utils.MD5Util;
 import com.yulaiz.dong.web.common.utils.UUIDUtil;
 import com.yulaiz.dong.web.dao.UserMapper;
 import com.yulaiz.dong.web.model.entity.UserInfo;
@@ -72,7 +71,7 @@ public class UserServiceImpl implements UserService {
     public String getRegisterLink(String token) {
         UserInfo userInfo = getUserByToken(token);
         if (!userMapper.checkIsAdministrator(userInfo.getId())) {
-            throw new ExeResultException("无效token");
+            throw new ExeResultException("该用户无权限操作");
         }
         String registeredToken = UUIDUtil.get32UUID();
         stringRedisTemplate.opsForValue().set(registeredToken, registeredToken, 5L, TimeUnit.MINUTES);
@@ -98,7 +97,7 @@ public class UserServiceImpl implements UserService {
         UserInfo userInfo = new UserInfo();
         userInfo.setUuid(UUIDUtil.get32UUID());
         userInfo.setUserName(userName);
-        userInfo.setPassword(MD5Util.md5(password));
+        userInfo.setPassword(password);
         userInfo.setRegisterToken(token);
         return userMapper.addUser(userInfo) == 1;
     }
