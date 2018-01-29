@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8"/>
     <title>为董师傅之工作日志添砖加瓦</title>
     <style>
         body {
@@ -16,7 +16,7 @@
         }
 
         .constr {
-            width: 1200px;
+            width: 1000px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -117,21 +117,157 @@
             margin-left: -20px;
         }
     </style>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
     <script type="text/javascript">
-        function getUrlParam(name) {
-            //构造一个含有目标参数的正则表达式对象
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            //匹配目标参数
-            var r = window.location.search.substr(1).match(reg);
-            //返回参数值
-            if (r != null) {
-                return decodeURI(r[2]);
+        $(document).ready(function () {
+
+            function getUrlParam(name) {
+                //构造一个含有目标参数的正则表达式对象
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                //匹配目标参数
+                var r = window.location.search.substr(1).match(reg);
+                //返回参数值
+                if (r != null) {
+                    return decodeURI(r[2]);
+                }
+                return null;
             }
-            return null;
-        }
-        function test() {
-            alert(getUrlParam("token"));
-        }
+
+            var token = getUrlParam("token");
+            if (token == undefined || token == "") {
+                //alert("token");
+            }
+            var userNameStr = "支持数字、字母的组合，4-20个字符，首位必须为字母";
+            var passwordStr = "6-16位密码，区分大小写，首位必须为字母";
+            var password2Str = "再次输入密码";
+            var warnIcon = "<i class=\"icon-warn\"></i>";
+            var verifyUserName = false;
+            var verifyPassword = false;
+            var verifyPassword2 = false;
+            //输入框得到焦点时
+            $("#userName").on('focus', function () {
+                $("#userName_text").removeClass("regist-warn");
+                $("#userName_text").html(userNameStr);
+                verifyUserName = false;
+            });
+            $("#password").on('focus', function () {
+                $("#password_text").removeClass("regist-warn");
+                $("#password_text").html(passwordStr);
+                verifyPassword = false;
+            });
+            $("#password2").on('focus', function () {
+                $("#password2_text").removeClass("regist-warn");
+                $("#password2_text").html(password2Str);
+                verifyPassword2 = false;
+            });
+            //输入框失去焦点时
+            $("#userName").on('blur', function () {
+                var value = $.trim($("#userName").val());
+                if (value.length == 0) {
+                    $("#userName_text").addClass("regist-warn");
+                    $("#userName_text").html(warnIcon + "用户名不能为空");
+                    verifyUserName = false;
+                } else {
+                    var reg = /^[a-zA-Z][a-zA-Z0-9]{3,19}$/;
+                    if (reg.test(value) == false) {
+                        $("#userName_text").addClass("regist-warn");
+                        $("#userName_text").html(warnIcon + "用户名格式不对");
+                        verifyUserName = false;
+                    } else {
+                        $("#userName_text").removeClass("regist-warn");
+                        $("#userName_text").html("");
+                        verifyUserName = true;
+                    }
+                }
+            });
+            $("#password").on('blur', function () {
+                var value = $.trim($("#password").val());
+                if (value.length == 0) {
+                    $("#password_text").addClass("regist-warn");
+                    $("#password_text").html(warnIcon + "密码不能为空");
+                    verifyPassword = false;
+                } else {
+                    var reg = /^[a-zA-Z][a-zA-Z0-9]{5,15}$/;
+                    if (reg.test(value) == false) {
+                        $("#password_text").addClass("regist-warn");
+                        $("#password_text").html(warnIcon + "密码格式不对");
+                        verifyPassword = false;
+                    } else {
+                        $("#password_text").removeClass("regist-warn");
+                        $("#password_text").html("");
+                        verifyPassword = true;
+                    }
+                }
+            });
+            $("#password2").on('blur', function () {
+                var password = $.trim($("#password").val());
+                var password2 = $.trim($("#password2").val());
+                if (password2.length == 0) {
+                    if (password.length == 0) {
+                        $("#password2_text").removeClass("regist-warn");
+                        $("#password2_text").html("");
+                        verifyPassword2 = false;
+                    } else {
+                        $("#password2_text").addClass("regist-warn");
+                        $("#password2_text").html(warnIcon + "密码不能为空");
+                        verifyPassword2 = false;
+                    }
+                } else {
+                    if (password == password2) {
+                        $("#password2_text").removeClass("regist-warn");
+                        $("#password2_text").html("");
+                        verifyPassword2 = true;
+                    } else {
+                        $("#password2_text").addClass("regist-warn");
+                        $("#password2_text").html(warnIcon + "需要输入相同的密码");
+                        verifyPassword2 = false;
+                    }
+                }
+            });
+            $("#btn").click(function () {
+                if (!verifyUserName) {
+                    $("#errorMsg").addClass("regist-warn");
+                    $("#errorMsg").html(warnIcon + "用户名输入有误");
+                    return;
+                }
+                if (!verifyPassword) {
+                    $("#errorMsg").addClass("regist-warn");
+                    $("#errorMsg").html(warnIcon + "密码输入有误");
+                    return;
+                }
+                if (!verifyPassword2) {
+                    $("#errorMsg").addClass("regist-warn");
+                    $("#errorMsg").html(warnIcon + "确认密码输入有误");
+                    return;
+                }
+                $("#errorMsg").removeClass("regist-warn");
+                $("#errorMsg").html("");
+                $.ajax({
+                    url: '/dong-manager/user/register',
+                    type: "POST",
+                    data: {
+                        token: token,
+                        userName: $.trim($("#userName").val()),
+                        password: md5($.trim($("#password").val())).toUpperCase()
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.result == "success") {
+                            $("#errorMsg").removeClass("regist-warn");
+                            $("#errorMsg").html("注册成功");
+                        } else {
+                            $("#errorMsg").addClass("regist-warn");
+                            $("#errorMsg").html("注册失败:" + data.message);
+                        }
+                    },
+                    error: function (data) {
+                        $("#errorMsg").addClass("regist-warn");
+                        $("#errorMsg").html("注册失败:" + data.message);
+                    }
+                })
+            });
+        });
     </script>
 </head>
 
@@ -141,32 +277,39 @@
     <div class="regist-body">
         <div class="regist-main">
             <div class="regist-group">
-                <label class="regist-label"><span class="regist-star">*</span>登录邮箱</label>
+                <label class="regist-label"><span class="regist-star">*</span>用户名</label>
                 <div class="regist-cell">
-                    <input type="email" class="regist-input"><span class="regist-remark regist-warn">
-                    	<i class="icon-warn"></i>邮箱格式不准确（演示）
-                    </span>
+                    <input id="userName" type="text" class="regist-input"><span id="userName_text"
+                                                                                class="regist-remark"></span>
                 </div>
             </div>
             <div class="regist-group">
-                <label class="regist-label"><span class="regist-star">*</span>登录密码</label>
+                <label class="regist-label"><span class="regist-star">*</span>设置密码</label>
                 <div class="regist-cell">
-                    <input type="password" class="regist-input"><span class="regist-remark">
-                    	请输入6-16位密码，区分大小写，不能使用空格
-                    </span>
+                    <input id="password" type="password" class="regist-input"><span id="password_text"
+                                                                                    class="regist-remark"></span>
                 </div>
             </div>
             <div class="regist-group">
-                <label class="regist-label"><span class="regist-star">*</span>用户昵称</label>
+                <label class="regist-label"><span class="regist-star">*</span>确认密码</label>
                 <div class="regist-cell">
-                    <input type="password" class="regist-input">
+                    <input id="password2" type="password" class="regist-input"><span id="password2_text"
+                                                                                     class="regist-remark"></span>
                 </div>
             </div>
             <div class="regist-group">
                 <label class="regist-label">&nbsp;</label>
                 <div class="regist-cell">
                     <p>
-                        <a href="javascript:void(0);" onclick="test();" class="regist-btn">立即注册</a>
+                        <a id="btn" href="javascript:void(0);" class="regist-btn">立即注册</a>
+                    </p>
+                </div>
+            </div>
+            <div class="regist-group">
+                <label class="regist-label">&nbsp;</label>
+                <div class="regist-cell">
+                    <p>
+                        <span id="errorMsg" class="regist-remark"></span>
                     </p>
                 </div>
             </div>

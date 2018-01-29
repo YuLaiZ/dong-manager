@@ -43,7 +43,7 @@ public class UserController {
     @IgnoreSecurity
     @ApiIgnore
     @ApiOperation(value = "通过注册链接注册", notes = "通过注册链接注册")
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ExeResult register(
             @RequestParam @NotBlank(message = "token不能为空") String token,
             @RequestParam @NotBlank(message = "用户名不能为空") String userName,

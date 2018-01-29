@@ -22,4 +22,6 @@ public interface UserMapper {
     Boolean hasExistUserName(@Param("userName") String userName);
 
     int addUser(@Param("item") UserInfo userInfo);
+
+    Boolean hasExistUserByToken(@Param("registerToken") String registerToken);
 }

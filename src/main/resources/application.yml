@@ -29,3 +29,6 @@ logging:
         root: debug
         org.springframework.boot: error
         com.yulaiz.dong.web: debug
+
+config:
+    register-url: http://localhost:8080/dong-manager/register.html

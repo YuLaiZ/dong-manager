@@ -66,13 +66,24 @@
 
     <insert id="addUser" parameterType="com.yulaiz.dong.web.model.entity.UserInfo">
         INSERT INTO d_user (
-            uuid, user_name, password, create_time
+            uuid, user_name, password, create_time, register_token
         )
         VALUES (
             #{item.uuid},
             #{item.userName},
             #{item.password},
-            now()
+            now(),
+            #{item.registerToken}
         )
     </insert>
+
+    <select id="hasExistUserByToken" resultType="java.lang.Boolean">
+        SELECT
+            count( u.id )
+        FROM
+            d_user u
+        WHERE
+            1 = 1
+            AND u.register_token = #{registerToken}
+    </select>
 </mapper>

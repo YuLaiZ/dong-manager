@@ -27,4 +27,7 @@ public class UserInfo implements Serializable {
 
     @ApiModelProperty("创建时间")
     private String createTime;
+
+    @ApiModelProperty("token")
+    private String registerToken;
 }
