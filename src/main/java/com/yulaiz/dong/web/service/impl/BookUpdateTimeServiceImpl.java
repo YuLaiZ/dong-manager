@@ -1,5 +1,6 @@
 package com.yulaiz.dong.web.service.impl;
 
+import com.yulaiz.dong.web.common.exception.ExeResultException;
 import com.yulaiz.dong.web.dao.BookUpdateTimeMapper;
 import com.yulaiz.dong.web.model.entity.BookUpdateTimeInfo;
 import com.yulaiz.dong.web.model.entity.UserInfo;
@@ -28,7 +29,7 @@ public class BookUpdateTimeServiceImpl implements BookUpdateTimeService {
 
     private final static String REDIS_KEY = "BOOK_UPDATE_TIME";
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public boolean addBookUpdateTime(String updateTime, UserInfo userInfo) {
@@ -36,7 +37,7 @@ public class BookUpdateTimeServiceImpl implements BookUpdateTimeService {
         try {
             bookUpdateTimeInfo.setUpdateTime(DATE_FORMAT.parse(updateTime));
         } catch (Exception e) {
-            return false;
+            throw new ExeResultException("日期格式有误");
         }
         bookUpdateTimeInfo.setUserId(userInfo.getId());
         if (bookUpdateTimeMapper.addBookUpdateTime(bookUpdateTimeInfo) == 1) {
@@ -51,6 +52,9 @@ public class BookUpdateTimeServiceImpl implements BookUpdateTimeService {
         String nearestTime = stringRedisTemplate.opsForValue().get(REDIS_KEY);
         if (nearestTime == null) {
             BookUpdateTimeVo bookUpdateTimeVo = bookUpdateTimeMapper.getNearestTime();
+            if (bookUpdateTimeVo == null) {
+                throw new ExeResultException("无最近更新日期");
+            }
             nearestTime = DATE_FORMAT.format(bookUpdateTimeVo.getUpdateTime());
             stringRedisTemplate.opsForValue().set(REDIS_KEY, nearestTime);
         }

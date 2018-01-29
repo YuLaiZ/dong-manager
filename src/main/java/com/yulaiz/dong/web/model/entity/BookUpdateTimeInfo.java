@@ -1,5 +1,6 @@
 package com.yulaiz.dong.web.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -18,6 +19,7 @@ public class BookUpdateTimeInfo implements Serializable {
     private String id;
 
     @ApiModelProperty("更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
     @ApiModelProperty("操作用户")

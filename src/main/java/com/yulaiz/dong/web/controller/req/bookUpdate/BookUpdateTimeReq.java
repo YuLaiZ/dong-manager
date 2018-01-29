@@ -14,7 +14,7 @@ public class BookUpdateTimeReq implements Serializable {
 
     private static final long serialVersionUID = 599004273580395080L;
 
-    @ApiModelProperty("更新时间，格式：yyyy-MM-dd")
+    @ApiModelProperty("更新时间，格式：yyyy-MM-dd HH:mm:ss")
     @NotBlank(message = "更新时间不能为空")
     private String updateTime;
 }

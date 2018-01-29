@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 127.0.0.1-root
+ Source Server         : YuLaisCloud
  Source Server Type    : MySQL
  Source Server Version : 50719
- Source Host           : localhost:3306
+ Source Host           : 123.207.125.170:3306
  Source Schema         : dong
 
  Target Server Type    : MySQL
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 19/01/2018 17:59:33
+ Date: 29/01/2018 11:22:29
 */
 
 SET NAMES utf8mb4;
@@ -27,9 +27,11 @@ CREATE TABLE `d_user`  (
   `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `role` enum('ADMIN','NORMAL') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'NORMAL',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `d_user_idx`(`user_name`, `password`) USING BTREE,
-  INDEX `d_user_idx_uuid`(`uuid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+  INDEX `d_user_idx_uuid`(`uuid`) USING BTREE,
+  INDEX `d_user_idx_role`(`role`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

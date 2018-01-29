@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 127.0.0.1-root
+ Source Server         : YuLaisCloud
  Source Server Type    : MySQL
  Source Server Version : 50719
- Source Host           : localhost:3306
+ Source Host           : 123.207.125.170:3306
  Source Schema         : dong
 
  Target Server Type    : MySQL
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 25/01/2018 15:25:24
+ Date: 29/01/2018 11:22:10
 */
 
 SET NAMES utf8mb4;

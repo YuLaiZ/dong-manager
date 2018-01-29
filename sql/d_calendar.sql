@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 127.0.0.1-root
+ Source Server         : YuLaisCloud
  Source Server Type    : MySQL
  Source Server Version : 50719
- Source Host           : localhost:3306
+ Source Host           : 123.207.125.170:3306
  Source Schema         : dong
 
  Target Server Type    : MySQL
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 25/01/2018 16:54:06
+ Date: 29/01/2018 11:22:23
 */
 
 SET NAMES utf8mb4;
@@ -36,6 +36,6 @@ CREATE TABLE `d_calendar`  (
   INDEX `d_calendar_idx_id`(`id`) USING BTREE,
   INDEX `d_calendar_idx_flag`(`flag`) USING BTREE,
   INDEX `d_calendar_idx_days`(`days`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '主日历' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '主日历' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
