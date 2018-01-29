@@ -68,8 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getRegisterLink(String token) {
-        UserInfo userInfo = getUserByToken(token);
+    public String getRegisterLink(UserInfo userInfo) {
         if (!userMapper.checkIsAdministrator(userInfo.getId())) {
             throw new ExeResultException("该用户无权限操作");
         }

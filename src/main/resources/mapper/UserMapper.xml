@@ -15,6 +15,7 @@
         WHERE 1 = 1
         AND u.user_name = #{userName}
         AND u.password = #{password}
+        AND u.flag = TRUE
     </select>
 
     <select id="getUserById" resultType="com.yulaiz.dong.web.model.entity.UserInfo">
@@ -28,6 +29,7 @@
             d_user u
         WHERE 1 = 1
         AND u.id = #{id}
+        AND u.flag = TRUE
     </select>
 
     <select id="getUserByUUId" resultType="com.yulaiz.dong.web.model.entity.UserInfo">
@@ -41,6 +43,7 @@
             d_user u
         WHERE 1 = 1
         AND u.uuid = #{uuid}
+        AND u.flag = TRUE
     </select>
 
     <select id="checkIsAdministrator" resultType="java.lang.Boolean">
@@ -52,6 +55,7 @@
             1 = 1
             AND u.role = 'ADMIN'
             AND u.id = #{id}
+            AND u.flag = TRUE
     </select>
 
     <select id="hasExistUserName" resultType="java.lang.Boolean">
@@ -85,5 +89,6 @@
         WHERE
             1 = 1
             AND u.register_token = #{registerToken}
+            AND u.flag = TRUE
     </select>
 </mapper>

@@ -10,7 +10,7 @@ public interface UserService {
 
     UserInfo getUserByToken(String token);
 
-    String getRegisterLink(String token);
+    String getRegisterLink(UserInfo userInfo);
 
     boolean register(String token, String userName, String password);
 }

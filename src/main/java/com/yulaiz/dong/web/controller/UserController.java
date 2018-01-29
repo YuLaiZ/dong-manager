@@ -1,8 +1,10 @@
 package com.yulaiz.dong.web.controller;
 
+import com.yulaiz.dong.web.common.annotation.CurrentUser;
 import com.yulaiz.dong.web.common.annotation.IgnoreSecurity;
 import com.yulaiz.dong.web.common.response.ExeResult;
 import com.yulaiz.dong.web.controller.req.user.UserLoginReq;
+import com.yulaiz.dong.web.model.entity.UserInfo;
 import com.yulaiz.dong.web.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,12 +34,11 @@ public class UserController {
         return ExeResult.getInstance(userService.login(req.getUserName(), req.getPassword()));
     }
 
-    @IgnoreSecurity
     @ApiIgnore
     @ApiOperation(value = "获取邀请注册链接", notes = "获取邀请注册链接")
-    @RequestMapping(value = "/link", method = RequestMethod.GET)
-    public ExeResult getRegisterLink(@RequestParam @NotBlank(message = "token不能为空") String token) {
-        return ExeResult.getInstance(userService.getRegisterLink(token));
+    @RequestMapping(value = "/link", method = RequestMethod.POST)
+    public ExeResult getRegisterLink(@CurrentUser UserInfo userInfo) {
+        return ExeResult.getInstance(userService.getRegisterLink(userInfo));
     }
 
     @IgnoreSecurity
