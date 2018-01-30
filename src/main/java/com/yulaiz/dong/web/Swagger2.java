@@ -35,7 +35,7 @@ public class Swagger2 {
                 .title("dong-manager")
                 .description("董师傅的妖孽人生后台管理接口")
                 .termsOfServiceUrl("http://dong.yulaiz.com/")
-                .contact(new Contact("YuLaiZ", "http://yulaiz.com/", "yulai_z@hotmail.com"))
+                .contact(new Contact("YuLaiZ", "http://yulaiz.com/", ""))
                 .version("1.0")
                 .build();
     }
