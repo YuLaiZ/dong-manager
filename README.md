@@ -1,7 +1,8 @@
 # dong-manager
 董师傅的妖孽人生后台管理接口
 
-已部署的项目接口文档地址：[http://yulaiz.com/dong-manager/](http://yulaiz.com/dong-manager/)
+已部署的项目接口文档地址：[http://dong.yulaiz.com/dong-manager/](http://dong.yulaiz.com/dong-manager/)
+项目地址：[http://dong.yulaiz.com/](http://dong.yulaiz.com/)
 
 使用的框架与资源
 1. spring boot

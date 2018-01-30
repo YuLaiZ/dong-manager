@@ -69,13 +69,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getRegisterLink(String remark, UserInfo userInfo) {
+    public String getRegisterLink(String remark, UserInfo userInfo, String url) {
         if (!userMapper.checkIsAdministrator(userInfo.getId())) {
             throw new ExeResultException("该用户无权限操作");
         }
         String registeredToken = UUIDUtil.get32UUID();
         stringRedisTemplate.opsForValue().set(registeredToken, StringUtil.handlerNullValue(remark), 5L, TimeUnit.MINUTES);
-        return "链接有效期为5分钟，请及时注册！ " + registerUrl + "?token=" + registeredToken;
+        return "链接有效期为5分钟，请及时注册！ " + url + registerUrl + "?token=" + registeredToken;
     }
 
     @Override

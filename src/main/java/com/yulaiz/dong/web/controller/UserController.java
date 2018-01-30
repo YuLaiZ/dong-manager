@@ -16,6 +16,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by YuLai on 2018/1/19.
  */
@@ -38,8 +40,11 @@ public class UserController {
     @ApiIgnore
     @ApiOperation(value = "获取邀请注册链接", notes = "获取邀请注册链接")
     @RequestMapping(value = "/link", method = RequestMethod.POST)
-    public ExeResult getRegisterLink(@RequestBody @Validated UserLinkReq req, @CurrentUser UserInfo userInfo) {
-        return ExeResult.getInstance(userService.getRegisterLink(req.getRemark(), userInfo));
+    public ExeResult getRegisterLink(@RequestBody @Validated UserLinkReq req,
+                                     @CurrentUser UserInfo userInfo,
+                                     HttpServletRequest request) {
+        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        return ExeResult.getInstance(userService.getRegisterLink(req.getRemark(), userInfo, url));
     }
 
     @IgnoreSecurity

@@ -31,4 +31,4 @@ logging:
         com.yulaiz.dong.web: debug
 
 config:
-    register-url: http://localhost:8080/dong-manager/register.html
+    register-url: /register.html
