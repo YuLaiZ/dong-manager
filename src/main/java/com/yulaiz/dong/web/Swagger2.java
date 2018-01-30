@@ -33,7 +33,7 @@ public class Swagger2 {
         return new ApiInfoBuilder()
                 .title("dong-manager")
                 .description("董师傅的妖孽人生后台管理接口")
-                .termsOfServiceUrl("http://yulaiz.com/dong/")
+                .termsOfServiceUrl("http://dong.yulaiz.com/")
                 .contact("YuLaiZ")
                 .version("1.0")
                 .build();
