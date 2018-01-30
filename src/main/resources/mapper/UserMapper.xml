@@ -70,14 +70,15 @@
 
     <insert id="addUser" parameterType="com.yulaiz.dong.web.model.entity.UserInfo">
         INSERT INTO d_user (
-            uuid, user_name, password, create_time, register_token
+            uuid, user_name, password, create_time, register_token, remark
         )
         VALUES (
             #{item.uuid},
             #{item.userName},
             #{item.password},
             now(),
-            #{item.registerToken}
+            #{item.registerToken},
+            #{item.remark}
         )
     </insert>
 

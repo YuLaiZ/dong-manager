@@ -1,6 +1,7 @@
 package com.yulaiz.dong.web.service.impl;
 
 import com.yulaiz.dong.web.common.exception.ExeResultException;
+import com.yulaiz.dong.web.common.utils.StringUtil;
 import com.yulaiz.dong.web.common.utils.UUIDUtil;
 import com.yulaiz.dong.web.dao.UserMapper;
 import com.yulaiz.dong.web.model.entity.UserInfo;
@@ -68,12 +69,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getRegisterLink(UserInfo userInfo) {
+    public String getRegisterLink(String remark, UserInfo userInfo) {
         if (!userMapper.checkIsAdministrator(userInfo.getId())) {
             throw new ExeResultException("该用户无权限操作");
         }
         String registeredToken = UUIDUtil.get32UUID();
-        stringRedisTemplate.opsForValue().set(registeredToken, registeredToken, 5L, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(registeredToken, StringUtil.handlerNullValue(remark), 5L, TimeUnit.MINUTES);
         return "链接有效期为5分钟，请及时注册！ " + registerUrl + "?token=" + registeredToken;
     }
 
@@ -98,6 +99,7 @@ public class UserServiceImpl implements UserService {
         userInfo.setUserName(userName);
         userInfo.setPassword(password);
         userInfo.setRegisterToken(token);
+        userInfo.setRemark(tokenValue);
         return userMapper.addUser(userInfo) == 1;
     }
 }

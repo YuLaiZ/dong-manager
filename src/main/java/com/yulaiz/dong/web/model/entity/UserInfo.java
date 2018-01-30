@@ -30,4 +30,7 @@ public class UserInfo implements Serializable {
 
     @ApiModelProperty("token")
     private String registerToken;
+
+    @ApiModelProperty("备注")
+    private String remark;
 }
