@@ -4,10 +4,10 @@
 <head>
     <title>跨域测试</title>
     <meta charset="UTF-8"/>
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script>
         $.ajax({
-            url: 'http://www.yulaiz.com/dong-manager/user/login',
+            url: 'http://dong.yulaiz.com/dong-manager/user/login',
             type: "POST",
             success: function (data) {
                 $("#info").html("跨域访问成功:" + data);
