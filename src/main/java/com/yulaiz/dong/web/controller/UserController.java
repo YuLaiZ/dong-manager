@@ -43,7 +43,9 @@ public class UserController {
     public ExeResult getRegisterLink(@RequestBody @Validated UserLinkReq req,
                                      @CurrentUser UserInfo userInfo,
                                      HttpServletRequest request) {
-        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+//        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        //项目使用二级域名，由nginx进行转发
+        String url = request.getScheme() + "://" + request.getServerName();
         return ExeResult.getInstance(userService.getRegisterLink(req.getRemark(), userInfo, url));
     }
 
