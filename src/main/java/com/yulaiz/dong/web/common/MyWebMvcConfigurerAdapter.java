@@ -1,6 +1,8 @@
-package com.yulaiz.dong.web.common.config;
+package com.yulaiz.dong.web.common;
 
-import com.yulaiz.dong.web.interceptor.AuthInterceptor;
+import com.yulaiz.dong.web.common.config.CurrentTokenMethodArgumentResolver;
+import com.yulaiz.dong.web.common.config.CurrentUserMethodArgumentResolver;
+import com.yulaiz.dong.web.common.interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -64,6 +66,7 @@ public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(currentTokenMethodArgumentResolver());
         argumentResolvers.add(currentUserMethodArgumentResolver());
         super.addArgumentResolvers(argumentResolvers);
     }
@@ -71,5 +74,10 @@ public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
     @Bean
     public CurrentUserMethodArgumentResolver currentUserMethodArgumentResolver() {
         return new CurrentUserMethodArgumentResolver();
+    }
+
+    @Bean
+    public CurrentTokenMethodArgumentResolver currentTokenMethodArgumentResolver() {
+        return new CurrentTokenMethodArgumentResolver();
     }
 }

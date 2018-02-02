@@ -1,13 +1,17 @@
 package com.yulaiz.dong.web.controller;
 
+import com.yulaiz.dong.web.common.annotation.CurrentToken;
 import com.yulaiz.dong.web.common.annotation.CurrentUser;
 import com.yulaiz.dong.web.common.annotation.IgnoreSecurity;
+import com.yulaiz.dong.web.common.annotation.IgnoreUser;
 import com.yulaiz.dong.web.common.response.ExeResult;
 import com.yulaiz.dong.web.controller.req.user.UserLinkReq;
 import com.yulaiz.dong.web.controller.req.user.UserLoginReq;
 import com.yulaiz.dong.web.model.entity.UserInfo;
 import com.yulaiz.dong.web.service.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.NotBlank;
@@ -35,6 +39,32 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ExeResult login(@RequestBody @Validated UserLoginReq req) {
         return ExeResult.getInstance(userService.login(req.getUserName(), req.getPassword()));
+    }
+
+    @IgnoreUser
+    @ApiOperation(value = "用户登出", notes = "用户登出")
+    @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public ExeResult logout(@CurrentToken String token) {
+        boolean isLogout = userService.logout(token);
+        if (isLogout) {
+            return ExeResult.getInstance(true);
+        } else {
+            return ExeResult.getInstance(false, "登出失败");
+        }
+    }
+
+    @IgnoreUser
+    @ApiOperation(value = "查询登录状态", notes = "查询登录状态")
+    @ApiImplicitParams({@ApiImplicitParam(name = "ACCESS_TOKEN", value = "Authorization token", required = true, dataType = "string", paramType = "header")})
+    @RequestMapping(value = "/checkToken", method = RequestMethod.POST)
+    public ExeResult checkToken(@CurrentToken String token) {
+        boolean hasToken = userService.checkToken(token);
+        if (hasToken) {
+            return ExeResult.getInstance(true);
+        } else {
+            return ExeResult.getInstance(false, "未登录");
+        }
     }
 
     @ApiIgnore

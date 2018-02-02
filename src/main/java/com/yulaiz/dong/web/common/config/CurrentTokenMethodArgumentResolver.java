@@ -1,7 +1,6 @@
 package com.yulaiz.dong.web.common.config;
 
-import com.yulaiz.dong.web.common.annotation.CurrentUser;
-import com.yulaiz.dong.web.model.entity.UserInfo;
+import com.yulaiz.dong.web.common.annotation.CurrentToken;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -11,9 +10,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 /**
- * Created by YuLai on 2018/1/25.
+ * Created by YuLai on 2018/2/2.
  */
-public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentResolver {
+public class CurrentTokenMethodArgumentResolver implements HandlerMethodArgumentResolver {
     /**
      * Whether the given {@linkplain MethodParameter method parameter} is
      * supported by this resolver.
@@ -24,8 +23,8 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
      */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().isAssignableFrom(UserInfo.class)
-                && parameter.hasParameterAnnotation(CurrentUser.class);
+        return parameter.getParameterType().isAssignableFrom(String.class)
+                && parameter.hasParameterAnnotation(CurrentToken.class);
     }
 
     /**
@@ -46,10 +45,10 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
      */
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        UserInfo userInfo = (UserInfo) webRequest.getAttribute("currentUser", RequestAttributes.SCOPE_REQUEST);
-        if (userInfo != null) {
-            return userInfo;
+        String token = (String) webRequest.getAttribute("currentToken", RequestAttributes.SCOPE_REQUEST);
+        if (token != null) {
+            return token;
         }
-        throw new MissingServletRequestPartException("currentUser");
+        throw new MissingServletRequestPartException("currentToken");
     }
 }

@@ -1,4 +1,4 @@
-package com.yulaiz.dong.web.interceptor;
+package com.yulaiz.dong.web.common.interceptor;
 
 import com.yulaiz.dong.web.common.exception.ExeResultException;
 import com.yulaiz.dong.web.common.response.ExeResult;

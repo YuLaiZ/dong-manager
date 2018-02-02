@@ -33,4 +33,7 @@ public class UserInfo implements Serializable {
 
     @ApiModelProperty("备注")
     private String remark;
+
+    @ApiModelProperty("邀请人ID")
+    private String inviterId;
 }

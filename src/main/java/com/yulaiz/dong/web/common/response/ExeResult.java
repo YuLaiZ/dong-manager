@@ -40,6 +40,14 @@ public class ExeResult<T> implements Serializable {
         return new ExeResult(200, result, message, null);
     }
 
+    public static <T> ExeResult<T> getInstance(boolean result, String message) {
+        if (result) {
+            return new ExeResult(200, "success", message, null);
+        } else {
+            return new ExeResult(200, "false", message, null);
+        }
+    }
+
     public static <T> ExeResult<T> getInstance(boolean result) {
         if (result) {
             return new ExeResult(200, "success", null, null);

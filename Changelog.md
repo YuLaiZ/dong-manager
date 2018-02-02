@@ -1,3 +1,14 @@
+#### 2018-2-2
+1. 添加用户登出与查询登录状态接口
+2. 用户登录接口token有效期为30分钟
+3. 每次调用查询登录状态接口会刷新token有效期为30分钟
+4. 用户表添加邀请人字段，邀请注册会存入邀请者id
+5. 限制广告条数，当已生效广告小于三条时才可新增
+6. 添加参数注解CurrentToken，用于在方法入参中注入http header中的token
+7. 添加方法注解IgnoreUser，用于需要注入token但不需要注入User实体
+8. 整理字符串判断，使用com.yulaiz.dong.web.common.utils.StringUtil工具类
+9. 将com.yulaiz.dong.web.interceptor包移动到com.yulaiz.dong.web.common.interceptor包下
+10. 将MyWebMvcConfigurerAdapter.class从com.yulaiz.dong.web.common.config移动到com.yulaiz.dong.web.common包下
 #### 2018-2-1
 1. 更新注册页面
 #### 2018-1-31

@@ -5,10 +5,12 @@ import com.yulaiz.dong.web.common.utils.StringUtil;
 import com.yulaiz.dong.web.common.utils.UUIDUtil;
 import com.yulaiz.dong.web.dao.UserMapper;
 import com.yulaiz.dong.web.model.entity.UserInfo;
+import com.yulaiz.dong.web.model.vo.InviteRegisterVo;
 import com.yulaiz.dong.web.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     private final static String ACCESS_TOKEN = "ACCESS_TOKEN_";
 
@@ -56,9 +61,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean logout(String token) {
+        if (StringUtil.isEmpty(token)) {
+            return false;
+        }
+        if (token.indexOf(ACCESS_TOKEN) == -1) {
+            return false;
+        }
+        String userId = stringRedisTemplate.opsForValue().get(token);
+        if (StringUtil.isEmpty(userId)) {
+            return true;
+        }
+        stringRedisTemplate.delete(token);
+        return true;
+    }
+
+    @Override
+    public boolean checkToken(String token) {
+        if (StringUtil.isEmpty(token)) {
+            return false;
+        }
+        UserInfo userInfo = null;
+        try {
+            userInfo = getUserByToken(token);
+        } catch (ExeResultException e) {
+            return false;
+        }
+        stringRedisTemplate.opsForValue().set(token, userInfo.getUuid(), DEFAULT_TOKEN_EXPIRE, TimeUnit.MINUTES);
+        return true;
+    }
+
+    @Override
     public UserInfo getUserByToken(String token) {
         String userId = stringRedisTemplate.opsForValue().get(token);
-        if (userId == null) {
+        if (StringUtil.isEmpty(userId)) {
             throw new ExeResultException("无效token");
         }
         UserInfo userInfo = userMapper.getUserByUUId(userId);
@@ -71,17 +107,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getRegisterLink(String remark, UserInfo userInfo, String url) {
         if (!userMapper.checkIsAdministrator(userInfo.getId())) {
-            throw new ExeResultException("该用户无权限操作");
+            throw new ExeResultException("无权限操作,如需该权限请联系宇来YuLai");
         }
+        InviteRegisterVo inviteRegisterVo = new InviteRegisterVo();
+        inviteRegisterVo.setInviterId(userInfo.getId());
+        inviteRegisterVo.setRemark(StringUtil.handlerNullValue(remark));
         String registeredToken = UUIDUtil.get32UUID();
-        stringRedisTemplate.opsForValue().set(registeredToken, StringUtil.handlerNullValue(remark), 5L, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(registeredToken, inviteRegisterVo, 5L, TimeUnit.MINUTES);
         return "链接有效期为5分钟，请及时注册！ " + url + registerUrl + "?token=" + registeredToken;
     }
 
     @Override
     public boolean register(String token, String userName, String password) {
-        String tokenValue = stringRedisTemplate.opsForValue().get(token);
-        if (tokenValue == null) {
+        InviteRegisterVo inviteRegisterVo = (InviteRegisterVo) redisTemplate.opsForValue().get(token);
+        if (inviteRegisterVo == null) {
             throw new ExeResultException("无效token");
         }
         if (!REG_USER_NAME.matcher(userName).matches()
@@ -99,7 +138,8 @@ public class UserServiceImpl implements UserService {
         userInfo.setUserName(userName);
         userInfo.setPassword(password);
         userInfo.setRegisterToken(token);
-        userInfo.setRemark(tokenValue);
+        userInfo.setRemark(inviteRegisterVo.getRemark());
+        userInfo.setInviterId(inviteRegisterVo.getInviterId());
         return userMapper.addUser(userInfo) == 1;
     }
 }

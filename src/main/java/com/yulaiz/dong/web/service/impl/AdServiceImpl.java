@@ -1,5 +1,6 @@
 package com.yulaiz.dong.web.service.impl;
 
+import com.yulaiz.dong.web.common.exception.ExeResultException;
 import com.yulaiz.dong.web.dao.AdMapper;
 import com.yulaiz.dong.web.model.entity.AdInfo;
 import com.yulaiz.dong.web.model.entity.UserInfo;
@@ -85,6 +86,9 @@ public class AdServiceImpl implements AdService {
 
     @Override
     public boolean addAd(String title, String description, UserInfo userInfo) {
+        if (getTotal() >= 3) {
+            throw new ExeResultException("广告只允许同时存在三条，请先删除再添加");
+        }
         AdInfo AdInfo = new AdInfo();
         AdInfo.setTitle(title);
         AdInfo.setDescription(description);

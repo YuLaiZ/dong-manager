@@ -1,5 +1,6 @@
 package com.yulaiz.dong.web;
 
+import com.yulaiz.dong.web.common.annotation.CurrentToken;
 import com.yulaiz.dong.web.common.annotation.CurrentUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,8 @@ public class Swagger2 {
                 .apis(RequestHandlerSelectors.basePackage("com.yulaiz.dong.web"))
                 .paths(PathSelectors.any())
                 .build()
-                .ignoredParameterTypes(CurrentUser.class);
+                .ignoredParameterTypes(CurrentUser.class)
+                .ignoredParameterTypes(CurrentToken.class);
     }
 
     private ApiInfo apiInfo() {

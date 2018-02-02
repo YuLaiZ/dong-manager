@@ -1,6 +1,7 @@
 package com.yulaiz.dong.web.service.impl;
 
 import com.yulaiz.dong.web.common.exception.ExeResultException;
+import com.yulaiz.dong.web.common.utils.StringUtil;
 import com.yulaiz.dong.web.dao.BookUpdateTimeMapper;
 import com.yulaiz.dong.web.model.entity.BookUpdateTimeInfo;
 import com.yulaiz.dong.web.model.entity.UserInfo;
@@ -50,7 +51,7 @@ public class BookUpdateTimeServiceImpl implements BookUpdateTimeService {
     @Override
     public String getNearestTime() {
         String nearestTime = stringRedisTemplate.opsForValue().get(REDIS_KEY);
-        if (nearestTime == null) {
+        if (StringUtil.isEmpty(nearestTime)) {
             BookUpdateTimeVo bookUpdateTimeVo = bookUpdateTimeMapper.getNearestTime();
             if (bookUpdateTimeVo == null) {
                 throw new ExeResultException("无最近更新日期");

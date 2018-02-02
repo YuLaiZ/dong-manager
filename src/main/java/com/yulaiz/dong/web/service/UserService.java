@@ -8,6 +8,10 @@ import com.yulaiz.dong.web.model.entity.UserInfo;
 public interface UserService {
     String login(String userName, String password);
 
+    boolean logout(String token);
+
+    boolean checkToken(String token);
+
     UserInfo getUserByToken(String token);
 
     String getRegisterLink(String remark, UserInfo userInfo, String url);
