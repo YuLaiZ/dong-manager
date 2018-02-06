@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -63,14 +64,14 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public CalendarListVo getCalendarListByWeeks(int weeksBegin, int weeksSize) {
-        List<CalendarVo> calendarVos = (List<CalendarVo>) redisTemplate.opsForValue().get(REDIS_LIST_HEADER + weeksBegin + "_" + weeksSize);
-        if (calendarVos == null) {
-            calendarVos = calendarMapper.getCalendarListByWeeks(weeksBegin, weeksSize);
-            redisTemplate.opsForValue().set(REDIS_LIST_HEADER + weeksBegin + "_" + weeksSize, calendarVos);
+    public CalendarListVo getCalendarListByPage(int page, int size) {
+        List<CalendarVo> adVos = (List<CalendarVo>) redisTemplate.opsForValue().get(REDIS_LIST_HEADER + page + "_" + size);
+        if (adVos == null) {
+            adVos = calendarMapper.getCalendarListByPage((page - 1) * size, size);
+            redisTemplate.opsForValue().set(REDIS_LIST_HEADER + page + "_" + size, adVos);
         }
         CalendarListVo calendarListVo = new CalendarListVo();
-        calendarListVo.setList(calendarVos);
+        calendarListVo.setList(adVos);
         calendarListVo.setTotal(getTotal());
         return calendarListVo;
     }
@@ -85,7 +86,7 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public synchronized boolean addCalendar(String days, String title, String description, String remark, UserInfo userInfo) {
+    public synchronized boolean addCalendar(Date days, String title, String description, String remark, UserInfo userInfo) {
         if (calendarMapper.hasExistCalendarByDays(days)) {
             throw new ExeResultException("已存在相同的日历天数，请检查后重试");
         }
@@ -103,7 +104,7 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public boolean modifyCalendar(String id, String days, String title, String description, String remark, UserInfo userInfo) {
+    public boolean modifyCalendar(String id, Date days, String title, String description, String remark, UserInfo userInfo) {
         CalendarInfo calendarInfo = new CalendarInfo();
         calendarInfo.setId(id);
         calendarInfo.setDays(days);

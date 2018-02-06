@@ -61,24 +61,6 @@
         LIMIT #{offset},#{size}
     </select>
 
-    <select id="getCalendarListByWeeks" resultType="com.yulaiz.dong.web.model.vo.CalendarVo">
-        SELECT
-            c.id,
-            c.days,
-            c.title,
-            c.description,
-            c.remark
-        FROM
-            d_calendar c
-        WHERE
-            1 = 1
-            AND c.flag = TRUE
-            <![CDATA[ AND c.days >= ( #{weeksBegin} - 1 ) * 7 ]]>
-            <![CDATA[ AND c.days <= ( #{weeksBegin} + #{weeksSize} - 1 ) * 7 ]]>
-        ORDER BY
-            c.days DESC
-    </select>
-
     <insert id="addCalendar" parameterType="com.yulaiz.dong.web.model.entity.CalendarInfo">
         INSERT INTO d_calendar (
             days, title, description, remark, flag, create_user_id, create_time, modify_user_id, modify_time
@@ -123,12 +105,12 @@
 
     <select id="hasExistCalendarByDays" resultType="java.lang.Boolean">
         SELECT
-            count( c.days )
+            count( c.id )
         FROM
             d_calendar c
         WHERE
             1 = 1
             AND c.flag = TRUE
-            AND c.days = #{days}
+            AND TO_DAYS( c.days ) = TO_DAYS( #{days} )
     </select>
 </mapper>

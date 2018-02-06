@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,14 +24,12 @@ public interface CalendarMapper {
 
     List<CalendarVo> getCalendarListByPage(@Param("offset") int offset, @Param("size") int size);
 
-    List<CalendarVo> getCalendarListByWeeks(@Param("weeksBegin") int weeksBegin, @Param("weeksSize") int weeksSize);
-
     int addCalendar(@Param("item") CalendarInfo calendarInfo);
 
     int modifyCalendar(@Param("item") CalendarInfo calendarInfo);
 
     int delCalendarById(@Param("item") CalendarInfo calendarInfo);
 
-    boolean hasExistCalendarByDays(@Param("days") String days);
+    boolean hasExistCalendarByDays(@Param("days") Date days);
 
 }

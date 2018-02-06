@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by YuLai on 2018/1/18.
@@ -17,7 +18,7 @@ public class CalendarInfo implements Serializable {
     private String id;
 
     @ApiModelProperty("日历天数")
-    private String days;
+    private Date days;
 
     @ApiModelProperty("日历标题")
     private String title;

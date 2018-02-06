@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by YuLai on 2018/1/19.
@@ -33,13 +34,9 @@ public class BookUpdateTimeServiceImpl implements BookUpdateTimeService {
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
-    public boolean addBookUpdateTime(String updateTime, UserInfo userInfo) {
+    public boolean addBookUpdateTime(Date updateTime, UserInfo userInfo) {
         BookUpdateTimeInfo bookUpdateTimeInfo = new BookUpdateTimeInfo();
-        try {
-            bookUpdateTimeInfo.setUpdateTime(DATE_FORMAT.parse(updateTime));
-        } catch (Exception e) {
-            throw new ExeResultException("日期格式有误");
-        }
+        bookUpdateTimeInfo.setUpdateTime(updateTime);
         bookUpdateTimeInfo.setUserId(userInfo.getId());
         if (bookUpdateTimeMapper.addBookUpdateTime(bookUpdateTimeInfo) == 1) {
             stringRedisTemplate.delete(REDIS_KEY);

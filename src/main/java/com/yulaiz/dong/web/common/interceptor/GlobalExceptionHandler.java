@@ -54,6 +54,9 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ExeResult handleRuntimeException(RuntimeException e) {
         log.error(e.getMessage());
+        if (e.getMessage().indexOf("java.util.Date") != -1) {
+            return ExeResult.getInstance("false", "日期格式有误");
+        }
         return ExeResult.getInstance("false", "操作失败");
     }
 

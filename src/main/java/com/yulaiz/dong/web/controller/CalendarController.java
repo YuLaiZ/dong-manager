@@ -37,17 +37,17 @@ public class CalendarController {
     }
 
     @IgnoreSecurity
+    @ApiOperation(value = "分页获取", notes = "分页获取日历")
+    @RequestMapping(value = "/get-list-by-page", method = RequestMethod.POST)
+    public ExeResult getCalendarListByPage(@RequestBody @Validated CalendarGetByPageReq req) {
+        return ExeResult.getInstance(calendarService.getCalendarListByPage(req.getPage(), req.getSize()));
+    }
+
+    @IgnoreSecurity
     @ApiOperation(value = "获取所有", notes = "获取所有日历")
     @RequestMapping(value = "/get-list", method = RequestMethod.POST)
     public ExeResult getCalendarList() {
         return ExeResult.getInstance(calendarService.getCalendarList());
-    }
-
-    @IgnoreSecurity
-    @ApiOperation(value = "根据周数获取", notes = "根据周数获取日历")
-    @RequestMapping(value = "/get-list-by-weeks", method = RequestMethod.POST)
-    public ExeResult getCalendarListByWeeks(@RequestBody @Validated CalendarGetByWeeksReq req) {
-        return ExeResult.getInstance(calendarService.getCalendarListByWeeks(req.getWeeksBegin(), req.getWeeksSize()));
     }
 
     @ApiOperation(value = "新增", notes = "新增一条日历")
