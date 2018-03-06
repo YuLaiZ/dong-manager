@@ -1,7 +1,7 @@
 # dong-manager
 董师傅的妖孽人生后台管理接口
-- 后台项目地址：[http://dong-manager.yulaiz.com/](http://dong-manager.yulaiz.com/)
-- 完整项目地址：[http://dong.yulaiz.com/](http://dong.yulaiz.com/)
+- 后台项目地址：[https://dong-manager.yulaiz.com/](https://dong-manager.yulaiz.com/)
+- 完整项目地址：[https://dong.yulaiz.com/](https://dong.yulaiz.com/)
 - 前端GitHub地址：[https://github.com/sosohime/fuckRPG](https://github.com/sosohime/fuckRPG)
 - 后台GitHub地址：[https://github.com/YuLaiZ/dong-manager](https://github.com/YuLaiZ/dong-manager)
 
